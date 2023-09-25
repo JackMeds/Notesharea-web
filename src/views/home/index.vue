@@ -1,5 +1,5 @@
 <template>
-    <div class="header h-10 bg-blue-500">
+    <div class="h-10 w-20 bg-slate-400 rounded-lg">
 
     </div>
 </template>
