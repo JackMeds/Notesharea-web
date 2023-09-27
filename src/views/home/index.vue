@@ -1,6 +1,6 @@
 <template>
 
-<HelloWorld/>
+<headerNav/>
   <div>
     
     <div class="main">
@@ -16,7 +16,7 @@
 import { ref, onMounted } from "vue";
 import indexleftlist from "../../components/indexLeftList.vue";
 import indexrightlist from "../../components/indexRightList.vue";
-import HelloWorld from '../../components/headerNav.vue'
+import headerNav from '../../components/headerNav.vue'
 
 export default {
   components: {
