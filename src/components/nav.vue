@@ -1,8 +1,8 @@
 <template>
-  <div class="container px-10 w-full">
+  <div class="px-10 w-full">
     <div class="flex flex-row mt-4">
       <div class="navbar_logo basis-2/14">
-        <img src="../../public/images/logo.png" alt="">
+        <img src="/images/logo.png" alt="">
       </div>
       <div class="navbar_menu basis-2/14">
         <ul>
@@ -13,12 +13,12 @@
       <div class="navbar_search basis-4/14">
         <div class="search">
           <input class="search_input" type="text" placeholder="">
-          <img class="mr-2" src="../../public/images/search.svg" alt="" @click="search">
+          <img class="mr-2" src="/images/search.svg" alt="" @click="search">
         </div>
 
       </div>
       <div class="navbar_login basis-1/14">
-        <img class="img_login" src="../../public/images/login.jpg" alt="" :style="imageStyle"
+        <img class="img_login" src="/images/login.jpg" alt="" :style="imageStyle"
           @mouseover="showHoverContent">
         <div v-if="isHovered" class="hover-content showHover" @mouseleave="hideHoverContent">
 
@@ -124,12 +124,15 @@ const imageStyle = ref({});
 // imageStyle: {},
 //鼠标悬浮显示个人中心
 function showHoverContent() {
+  console.log('鼠标悬浮');
   isHovered.value = true;
+  console.log(isHovered.value);
   imageStyle.value = { transform: 'scale(2.0)', transition: 'transform 0.3s ease-out' };
 }
 
 //鼠标离开隐藏个人中心
 function hideHoverContent() {
+  console.log('鼠标离开');
   isHovered.value = false;
   imageStyle.value = { transform: 'scale(1)', transition: 'transform 0.3s ease-out' };
 }
@@ -138,9 +141,8 @@ defineProps({
   msg: String,
 })
 
-const count = ref(0)
 </script>
-<style scoped>
+<style>
 .navbar_logo img {
   @apply w-20;
 }
@@ -183,8 +185,7 @@ const count = ref(0)
 }
 
 .showHover {
-  @apply w-56 absolute right-520;
-
+  @apply bg-white
 }
 
 .hover-content-item ul li .img_left {

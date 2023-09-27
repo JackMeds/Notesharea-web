@@ -1,13 +1,10 @@
 <template>
-  <headerNav class="headerNav"/>
-  <div>
-
-    <div class="main">
-      <div class="leftListWrapper">
-        <indexleftlist class="left" :style="leftListStyle" />
-      </div>
-      <indexrightlist class="right" />
+  <headerNav class="headerNav" />
+  <div class="main">
+    <div class="leftListWrapper">
+      <indexleftlist class="left" :style="leftListStyle" />
     </div>
+    <indexrightlist class="right" />
   </div>
 </template>
 
@@ -15,7 +12,7 @@
 import { ref, onMounted } from "vue";
 import indexleftlist from "../../components/indexLeftList.vue";
 import indexrightlist from "../../components/indexRightList.vue";
-import headerNav from '../../components/nav.vue'
+import headerNav from "../../components/nav.vue";
 const penjingHeight = ref(0);
 
 onMounted(() => {
@@ -36,19 +33,22 @@ const updateLeftListStyle = () => {
     leftElement.style.display = "none"; // 隐藏左侧列表
   } else {
     leftElement.style.display = "block"; // 显示左侧列表
-    leftElement.style.position = scrollTop >= penjingHeight.value ? "fixed" : "static";
+    leftElement.style.position =
+      scrollTop >= penjingHeight.value ? "fixed" : "static";
     leftElement.style.top = scrollTop >= penjingHeight.value ? "0" : "auto";
   }
 };
 </script>
 
 <style scoped>
+.indexBody {
+  @apply w-full;
+}
 .headerNav {
-  @apply z-50 fixed top-0 left-0 right-0;
+  @apply w-full z-50 fixed top-0 left-0 right-0;
 }
 .main {
-  position: relative;
-  /* 设置容器为相对定位 */
+  @apply container flex;
 }
 
 .left {

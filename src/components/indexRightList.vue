@@ -125,10 +125,7 @@ a {
   text-decoration: none;
 }
 .index_topRightlist {
-  width: 1450px;
-  height: 700px;
-  margin-right: 90px;
-  display: flex; /* 使用Flex布局 */
+  @apply w-full h-96 mr-5 flex;
 }
 
 /* 内容右边图片及内容的css */

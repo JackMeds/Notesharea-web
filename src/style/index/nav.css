@@ -1,0 +1,71 @@
+.navbar_logo img {
+    @apply w-20;
+}
+
+.navbar_logo,
+.navbar_search,
+.navbar_login,
+.navbar_upload,
+.navbar_menu {
+    @apply text-center;
+}
+
+.search {
+    @apply w-80 border-solid border-2 border-gray-500 rounded-xl;
+}
+
+.search_input {
+    @apply w-60 border-none outline-none;
+}
+
+.search img {
+    @apply w-5 float-right;
+}
+
+.navbar_login .img_login {
+    @apply border-solid border-2 border-gray-500 rounded-full w-8 h-8 m-auto z-10;
+}
+
+.navbar_menu ul li {
+    @apply float-left mr-10;
+}
+
+.navbar_menu ul {
+    @apply table m-auto;
+
+}
+
+.upload {
+    @apply w-28 border-solid border-2 border-black rounded-2xl;
+}
+
+.showHover {}
+
+.hover-content-item ul li .img_left {
+    @apply w-5 h-5 float-left;
+}
+
+.hover-content-item ul li .img_right {
+    @apply w-5 h-5 float-right;
+}
+
+.hover-content-item ul li span {
+    @apply mr-10;
+
+}
+
+.hover-content-item .item_li {
+    @apply rounded-md h-9 hover:bg-slate-100;
+}
+
+.hover-content-item ul li a {
+    @apply relative top-1.5;
+}
+
+.hover-content-item .item_list {
+    @apply mx-6 mt-2;
+}
+
+.li_underline {
+    @apply border-b border-slate-200 mt-3 w-40;
+}
