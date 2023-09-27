@@ -1,6 +1,8 @@
 <template>
+
+<HelloWorld/>
   <div>
-    <div class="penjing" ref="penjing"></div>
+    
     <div class="main">
       <div class="leftListWrapper">
         <indexleftlist class="left" :style="leftListStyle" />
@@ -14,6 +16,7 @@
 import { ref, onMounted } from "vue";
 import indexleftlist from "../../components/indexLeftList.vue";
 import indexrightlist from "../../components/indexRightList.vue";
+import HelloWorld from '../../components/headerNav.vue'
 
 export default {
   components: {
@@ -56,10 +59,6 @@ export default {
 </script>
 
 <style scoped>
-.penjing {
-  background-color: black;
-  height: 500px;
-}
 
 .main {
   position: relative; /* 设置容器为相对定位 */
