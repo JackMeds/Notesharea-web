@@ -1,5 +1,5 @@
 <template>
-  <div class="2xl:container px-10">
+  <div class="container px-10 w-full">
     <div class="flex flex-row mt-4">
       <div class="navbar_logo basis-2/14">
         <img src="../../public/images/logo.png" alt="">
