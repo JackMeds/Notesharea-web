@@ -1,5 +1,5 @@
 <template>
-  <div class="px-10 w-full">
+  <div class="px-10 w-full bg-white">
     <div class="flex flex-row mt-4">
       <div class="navbar_logo basis-2/14">
         <img src="/images/logo.png" alt="">
@@ -20,7 +20,7 @@
       <div class="navbar_login basis-1/14">
         <img class="img_login" src="/images/login.jpg" alt="" :style="imageStyle"
           @mouseover="showHoverContent">
-        <div v-if="isHovered" class="hover-content showHover" @mouseleave="hideHoverContent">
+        <div v-show="isHovered" class="hover-content showHover" @mouseleave="hideHoverContent">
 
           <div class="hover-content-item mt-5">
             <div>
@@ -124,15 +124,15 @@ const imageStyle = ref({});
 // imageStyle: {},
 //鼠标悬浮显示个人中心
 function showHoverContent() {
-  console.log('鼠标悬浮');
+  // console.log('鼠标悬浮');
   isHovered.value = true;
-  console.log(isHovered.value);
+  // console.log(isHovered.value);
   imageStyle.value = { transform: 'scale(2.0)', transition: 'transform 0.3s ease-out' };
 }
 
 //鼠标离开隐藏个人中心
 function hideHoverContent() {
-  console.log('鼠标离开');
+  // console.log('鼠标离开');
   isHovered.value = false;
   imageStyle.value = { transform: 'scale(1)', transition: 'transform 0.3s ease-out' };
 }

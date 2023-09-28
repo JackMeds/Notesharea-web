@@ -1,36 +1,20 @@
 <template>
   <div class="index_topRightlist">
+    <div class="topNav">
+      <p class="topNavTitle">随便看看</p>
+      <button class="change">换一换</button>
+    </div>
     <div class="index_Imglist">
-      <!-- 内容右边图片及内容 -->
-      <a href="">
-        <div class="right_Imglist">
-          <img src="../assets/images/tuxiang1.png" alt="" class="r_img" />
-          <div class="r_List justify-center">
-            <p class="r_Title text-3xl">特工易冷</p>
-            <p class="r_UserName text-xl text-slate-500">贺大爷</p>
-            <p class="r_Synopsis truncate text-slate-500">
-              hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-            </p>
-          </div>
+      <!-- 内容图片及内容 -->
+      <div class="Imglist" v-for="(item, index) in leftList" :key="index">
+        <div class="listItemPic">
+          <img :src="item.imgurl" alt="" />
         </div>
-      </a>
-      <!-- 内容左边图片及内容 -->
-      <a href="">
-        <div
-          class="left_Imglist"
-          v-for="(item, index) in leftList"
-          :key="index"
-        >
-          <img :src="item.imgurl" alt="" class="l_img" />
-          <div class="l_List justify-center">
-            <p class="l_Title">{{ item.title }}</p>
-            <p class="l_UserName text-sm text-slate-500">{{ item.username }}</p>
-            <p class="l_Synopsis truncate text-sm text-slate-500">
-              {{ item.synopsis }}
-            </p>
-          </div>
+        <div class="text">
+          <p class="Title">{{ item.title }}</p>
+          <p class="UserName">{{ item.username }}</p>
         </div>
-      </a>
+      </div>
     </div>
   </div>
 </template>
@@ -45,71 +29,41 @@ export default {
       {
         title: "特工易冷",
         username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
         imgurl: imglocal,
       },
       {
         title: "特工易冷",
         username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
         imgurl: imglocal,
       },
       {
         title: "特工易冷",
         username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
         imgurl: imglocal,
       },
       {
         title: "特工易冷",
         username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
         imgurl: imglocal,
       },
       {
         title: "特工易冷",
         username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
         imgurl: imglocal,
       },
       {
         title: "特工易冷",
         username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
         imgurl: imglocal,
       },
       {
         title: "特工易冷",
         username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
         imgurl: imglocal,
       },
       {
         title: "特工易冷",
         username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
-        imgurl: imglocal,
-      },
-      {
-        title: "特工易冷",
-        username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
-        imgurl: imglocal,
-      },
-      {
-        title: "特工易冷",
-        username: "贺大爷",
-        synopsis:
-          "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
         imgurl: imglocal,
       },
     ]);
@@ -120,65 +74,35 @@ export default {
 };
 </script>
 
-<style scoped>
-a {
-  text-decoration: none;
-}
+<style>
 .index_topRightlist {
-  @apply w-full h-96 mr-5 flex;
+  @apply w-full;
 }
-
-/* 内容右边图片及内容的css */
-.right_Imglist {
-  margin-top: 60px;
-  background-color: #fafafa;
-  width: 380px;
-  height: 600px;
-  /* 不做任何定位或偏移，保持容器位置不变 */
-  float: left;
+.topNav {
+  @apply flex-1 flex justify-between items-center;
+  .change {
+    @apply border border-black px-1 text-sm rounded-lg bg-white;
+  }
 }
-.right_Imglist .r_img {
-  width: 360px;
-  margin: auto; /* 在Flex容器中水平和垂直居中对齐图片 */
-  display: block; /* 去除默认行内元素间隙 */
-  padding-top: 4px;
-}
-.right_Imglist .r_List {
-  width: 220px;
-  margin-left: 10px;
-}
-.right_Imglist .r_UserName {
-  margin-top: 6px;
-}
-.right_Imglist .r_Synopsis {
-  margin-top: 10px;
-}
-
-/* 内容左边图片及内容的css */
-.left_Imglist {
-  background-color: #fafafa;
-  margin-top: 60px;
-  margin-left: 10px;
-  background-color: #fafafa;
-  width: 180px;
-  height: 270px;
-  /* 不做任何定位或偏移，保持容器位置不变 */
-  float: right;
-}
-.left_Imglist .l_img {
-  width: 110px;
-  margin: auto; /* 在Flex容器中水平和垂直居中对齐图片 */
-  display: block; /* 去除默认行内元素间隙 */
-  padding-top: 4px;
-}
-.left_Imglist .l_List {
-  width: 110px;
-  margin-left: 4px;
-}
-.left_Imglist .l_UserName {
-  margin-top: 3px;
-}
-.left_Imglist .l_Synopsis {
-  margin-top: 4px;
+.index_Imglist {
+  @apply flex flex-wrap justify-between mt-4;
+  .Imglist {
+    @apply md:w-1/4 w-1/2 flex flex-col items-center;
+    .listItemPic {
+      @apply w-11/12;
+      img {
+        @apply aspect-[4/3] w-full;
+      }
+    }
+    .text {
+      @apply w-11/12 mt-2;
+      .Title {
+        @apply text-sm;
+      }
+      .UserName {
+        @apply text-gray-400 text-xs;
+      }
+    }
+  }
 }
 </style>

@@ -5,6 +5,9 @@ export default {
   ],
   theme: {
     extend: {
+      aspectRatio: {
+        '4/3': '4 / 3',
+      },
       flexBasis: {
         '1/14': '7.1428571%',
         '2/14': '14.2857142%',

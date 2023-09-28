@@ -1,6 +1,6 @@
 <template>
-  <div class="leftList shadow-2xl">
-    <div v-for="(item, index) in list" :key="index">
+  <div class="leftList">
+    <div class="listItem" v-for="(item, index) in list" :key="index">
       <button
         :class="[
           'leftList_btn',
@@ -67,26 +67,19 @@ export default {
 </script>
 
 <style>
-a {
-  text-decoration: none;
-}
-.leftList {
-  width: 180px;
-  margin-left: 90px;
-}
-.leftList .leftList_btn {
-  width: 160px;
-  height: 50px;
-  margin-left: 10px;
-}
-.leftList .leftList_btn:hover {
-  background-color: #eaf2ff;
-  color: #1e80ff;
-}
-.leftList_btn.first-button {
-  margin-top: 20px;
-}
-.leftList_btn.last-button {
-  margin-bottom: 0px;
-}
+  .leftList{
+    @apply w-full;
+    .listItem{
+      @apply w-full;
+      .leftList_btn{
+        @apply w-full h-12 text-center text-black bg-amber-50 hover:bg-amber-100;
+        &.first-button{
+          @apply rounded-t-xl;
+        }
+        &.last-button{
+          @apply rounded-b-xl;
+        }
+      }
+    }
+  }
 </style>
