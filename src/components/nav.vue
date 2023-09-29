@@ -67,7 +67,7 @@
                   <a href="">
                     <img class="img_left" src="/images/share.svg" alt="">
                     <span>投稿管理</span>
-                    <img class="img_right" src="/public/images/inright.svg" alt="">
+                    <img class="img_right" src="/images/inright.svg" alt="">
                   </a>
                 </li>
                 <li class="item_li">
