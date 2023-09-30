@@ -21,7 +21,13 @@ const routes = [
                 component: () => import('../views/auth/register.vue')
             }
         ]
-    }
+    },
+    {
+        // 笔记
+        path:'/note',
+        component: () => import('../views/note/index.vue')
+    },
+
 ]
 
 // 创建router实例

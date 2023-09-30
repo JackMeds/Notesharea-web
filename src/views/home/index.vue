@@ -17,9 +17,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import headerNav from "../../components/nav.vue";
-import indexleftlist from "../../components/indexLeftList.vue";
-import indexrightlist from "../../components/indexRightList.vue";
-import indexTextList from "../../components/indexTextList.vue";
+import indexleftlist from "../../components/index/indexLeftList.vue";
+import indexrightlist from "../../components/index/indexRightList.vue";
+import indexTextList from "../../components/index/indexTextList.vue";
 
 const isScrolled = ref(false);
 
