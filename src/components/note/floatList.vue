@@ -1,19 +1,28 @@
 <template>
     <div class="floatListConatiner">
         <div class="like">
-            喜欢
+            <img src="/images/like.svg" alt="">
+            <span>100</span>
         </div>
         <div class="comment">
-            评论
+            <img src="/images/comment.svg" alt="">
+            <span>100</span>
         </div>
         <div class="collect">
-            收藏
+            <img src="/images/collect.svg" alt="">
+            <span>100</span>
         </div>
         <div class="share">
-            分享
+            <img src="/images/share.svg" alt="">
+            <span>100</span>
         </div>
         <div class="report">
-            举报
+            <img src="/images/report.svg" alt="">
+            <span>100</span>
+        </div>
+        <div class="top">
+            <img src="/images/top.svg" alt="">
+            <span>TOP</span>
         </div>
     </div>
 </template>
@@ -26,19 +35,40 @@ export default {
 .floatListConatiner {
     @apply flex flex-col;
     .like {
-        @apply w-16 h-16 border border-black mb-2;
+        @apply w-16 h-16 mb-2 flex flex-col justify-center items-center;
+        img {
+            @apply w-8 h-8 ;
+        }
     }
     .comment {
-        @apply w-16 h-16 border border-black mb-2;
+        @apply w-16 h-16 mb-2 flex flex-col justify-center items-center;
+        img {
+            @apply w-8 h-8;
+        }
     }
     .collect {
-        @apply w-16 h-16 border border-black mb-2;
+        @apply w-16 h-16 mb-2 flex flex-col justify-center items-center;
+        img {
+            @apply w-8 h-8;
+        }
     }
     .share {
-        @apply w-16 h-16 border border-black mb-2;
+        @apply w-16 h-16 mb-2 flex flex-col justify-center items-center;
+        img {
+            @apply w-8 h-8;
+        }
     }
     .report {
-        @apply w-16 h-16 border border-black mb-2;
+        @apply w-16 h-16 mb-2 flex flex-col justify-center items-center;
+        img {
+            @apply w-8 h-8;
+        }
+    }
+    .top {
+        @apply w-16 h-16 mb-2 flex flex-col justify-center items-center;
+        img {
+            @apply w-8 h-8;
+        }
     }
 }
 </style>
