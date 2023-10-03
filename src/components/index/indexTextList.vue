@@ -22,17 +22,20 @@
         <div class="textListItemFooter">
           <div class="textListItemFooterItem">
             <div class="textListItemFooterItemText">
-              <span>点赞 {{ item.like }}</span>
+              <img src="/images/like.svg" alt="">
+              <span>{{ item.like }}</span>
             </div>
           </div>
           <div class="textListItemFooterItem">
             <div class="textListItemFooterItemText">
-              <span>收藏 {{ item.collect }}</span>
+              <img src="/images/collect.svg" alt="">
+              <span>{{ item.collect }}</span>
             </div>
           </div>
           <div class="textListItemFooterItem">
             <div class="textListItemFooterItemText">
-              <span>评论 {{ item.comment }}</span>
+              <img src="/images/comment.svg" alt="">
+              <span>{{ item.comment }}</span>
             </div>
           </div>
         </div>
@@ -123,11 +126,14 @@ const textList = ref([
       .textListItemFooter {
         @apply w-full flex mb-3;
         .textListItemFooterItem {
-          @apply mx-5;
+          @apply mr-6 mt-1;
           .textListItemFooterItemText {
-            @apply w-full;
+            @apply w-full flex justify-center items-center;
+            img {
+              @apply w-5 h-5 mr-1;
+            }
             span {
-              @apply text-sm;
+              @apply text-xs;
             }
           }
         }

@@ -72,12 +72,12 @@ export default {
     .listItem{
       @apply w-full;
       .leftList_btn{
-        @apply w-full h-12 text-center text-black bg-amber-50 hover:bg-amber-100;
-        &.first-button{
-          @apply rounded-t-xl;
-        }
+        @apply w-full lg:h-12 h-8 text-center text-black bg-white hover:bg-gray-50 border border-black rounded-sm mb-1;
+        /* &.first-button{
+          
+        } */
         &.last-button{
-          @apply rounded-b-xl;
+          @apply mb-0;
         }
       }
     }

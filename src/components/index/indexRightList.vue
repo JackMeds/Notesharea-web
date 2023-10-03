@@ -21,7 +21,7 @@
 
 <script>
 import { ref } from "vue";
-import imglocal from "../assets/images/tuxiang1.png";
+import imglocal from "/images/tuxiang1.png";
 export default {
   name: "indexRightList",
   setup() {
@@ -81,13 +81,13 @@ export default {
 .topNav {
   @apply flex-1 flex justify-between items-center;
   .change {
-    @apply border border-black px-1 text-sm rounded-lg bg-white;
+    @apply border border-black px-1 text-sm rounded-lg bg-white hover:bg-gray-100;
   }
 }
 .index_Imglist {
   @apply flex flex-wrap justify-between mt-4;
   .Imglist {
-    @apply md:w-1/4 w-1/2 flex flex-col items-center;
+    @apply md:w-1/3 lg:w-1/4 w-1/2 flex flex-col items-center;
     .listItemPic {
       @apply w-11/12;
       img {

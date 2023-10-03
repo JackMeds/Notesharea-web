@@ -26,6 +26,20 @@ const routes = [
         // 笔记
         path:'/note',
         component: () => import('../views/note/index.vue')
+        // children: [
+        //     {
+        //         path: 'detail',
+        //         component: () => import('../views/note/detail.vue')
+        //     },
+        //     {
+        //         path: 'edit',
+        //         component: () => import('../views/note/edit.vue')
+        //     }
+        // ]
+    },
+    {
+        path: '/create',
+        component: () => import('../views/home/create.vue')
     },
 
 ]
