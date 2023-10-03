@@ -1,0 +1,160 @@
+<template>
+    <createNav class="createNav" :class="{ 'shadow-lg': isScrolled }"></createNav>
+    <div class="headerNull"></div>
+    <div class="createContainer">
+        <div class="createTitle">
+            <p>
+                笔记标题*
+            </p>
+            <n-input class="titleInput" maxlength="30" show-count clearable />
+            <p>
+                编辑笔记内容*
+            </p>
+        </div>
+        <div class="wangEditor-container">
+            <div class="editor">
+                <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
+                    :mode="mode" />
+                <Editor style="height: 500px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
+                    :mode="mode" @onCreated="handleCreated" />
+            </div>
+        </div>
+        <n-upload ref="uploadRef" multiple directory-dnd action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+            :default-upload="false" @change="handleChange">
+            <n-upload-dragger class="uploadDragger">
+                <div class="">
+                    <img src="/images/create/upload.svg" alt="">
+                </div>
+                <span style="font-size: 16px">
+                    点击或者拖动文件到该区域来上传
+                </span>
+                <p>
+                    请不要上传敏感数据，比如你的银行卡号和密码，信用卡号有效期和安全码
+                </p>
+            </n-upload-dragger>
+        </n-upload>
+        <div class="uploadBtn" :disabled="!fileListLengthRef" @click="handleClick">
+            <span>
+                发布笔记
+            </span>
+        </div>
+        <div class="createEula">
+            <span>发布笔记，即代表您同意</span><span class="elua">Notesharea使用协议</span><span>，请勿上传色情违法内容。</span>
+        </div>
+    </div>
+</template>
+<script setup>
+import '@wangeditor/editor/dist/css/style.css' // 引入 css
+
+import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import createNav from "../../components/create/createNav.vue";
+
+const isScrolled = ref(false);
+
+// 监听页面滚动事件
+const handleScroll = () => {
+    isScrolled.value = window.scrollY > 0;
+};
+
+// 在组件挂载时添加滚动事件监听
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+});
+
+// 编辑器实例，必须用 shallowRef
+const editorRef = shallowRef()
+const mode = 'default' // 编辑器模式，可选值为：default、simple、classic
+// 内容 HTML
+const valueHtml = ref('<p>hello</p>')
+
+// 模拟 ajax 异步获取内容
+onMounted(() => {
+    setTimeout(() => {
+        valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>'
+    }, 1500)
+})
+
+const toolbarConfig = {}
+const editorConfig = { placeholder: '请输入内容...' }
+
+// 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() => {
+    const editor = editorRef.value
+    if (editor == null) return
+    editor.destroy()
+})
+
+const handleCreated = (editor) => {
+    editorRef.value = editor // 记录 editor 实例，重要！
+}
+
+// 发布笔记,上传文件
+const fileListLengthRef = ref(0);
+const uploadRef = ref(null);
+const handleChange = (options) => {
+    fileListLengthRef.value = options.fileList.length;
+};
+const handleClick = () => {
+    uploadRef.value?.submit();
+};
+
+</script>
+<style>
+.createNav {
+    @apply w-full h-16 z-50 fixed top-0 left-0 right-0 min-w-max;
+}
+
+.headerNull {
+    @apply w-full h-16;
+}
+
+.createContainer {
+    @apply container mx-auto flex-col flex;
+
+    .createTitle {
+        @apply w-full flex-col justify-start items-center;
+
+        p {
+            @apply text-xl font-bold mb-2;
+        }
+
+        .titleInput {
+            @apply lg:w-1/2 w-full mb-2 rounded-md;
+        }
+    }
+
+    .wangEditor-container {
+        @apply border border-solid border-black rounded-md w-full mb-4 p-1;
+        .editor {
+            @apply w-full mb-4;
+        }
+    }
+
+    .uploadDragger {
+        @apply w-full h-60 flex flex-col justify-center items-center border-2 border-dashed border-gray-300 rounded-md;
+
+        img {
+            @apply w-10;
+        }
+
+        span {
+            @apply mt-4;
+        }
+
+        p {
+            @apply mt-4 text-slate-400;
+        }
+    }
+
+    .uploadBtn {
+        @apply ml-auto mt-2 mb-2 border-2 border-solid border-black rounded-lg w-1/6 h-12 flex justify-center items-center cursor-pointer hover:bg-gray-100;
+    }
+    .createEula {
+        @apply w-full flex justify-center items-center text-slate-400 mb-10;
+        .elua {
+            @apply text-blue-500;
+        }
+    }
+}
+</style>
