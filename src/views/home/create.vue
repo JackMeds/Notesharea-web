@@ -48,6 +48,7 @@ import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
 import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { DomEditor } from '@wangeditor/editor'
 import createNav from "../../components/create/createNav.vue";
 
 const isScrolled = ref(false);
@@ -65,6 +66,9 @@ onMounted(() => {
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
 const mode = 'default' // 编辑器模式，可选值为：default、simple、classic
+
+
+
 // 内容 HTML
 const valueHtml = ref('<p>hello</p>')
 
@@ -78,6 +82,67 @@ onMounted(() => {
 const toolbarConfig = {}
 const editorConfig = { placeholder: '请输入内容...' }
 
+//工具栏配置
+toolbarConfig.toolbarKeys = [
+    "headerSelect",
+    "blockquote",
+    "|",
+    "bold",
+    "underline",
+    "italic",
+    {
+        "key": "group-more-style",
+        "title": "更多",
+        "iconSvg": "<svg viewBox=\"0 0 1024 1024\"><path d=\"M204.8 505.6m-76.8 0a76.8 76.8 0 1 0 153.6 0 76.8 76.8 0 1 0-153.6 0Z\"></path><path d=\"M505.6 505.6m-76.8 0a76.8 76.8 0 1 0 153.6 0 76.8 76.8 0 1 0-153.6 0Z\"></path><path d=\"M806.4 505.6m-76.8 0a76.8 76.8 0 1 0 153.6 0 76.8 76.8 0 1 0-153.6 0Z\"></path></svg>",
+        "menuKeys": [
+            "through",
+            "code",
+            "sup",
+            "sub",
+            "clearStyle"
+        ]
+    },
+    "color",
+    "bgColor",
+    "|",
+    "fontSize",
+    "fontFamily",
+    "lineHeight",
+    "|",
+    "bulletedList",
+    "numberedList",
+    "todo",
+    {
+        "key": "group-justify",
+        "title": "对齐",
+        "iconSvg": "<svg viewBox=\"0 0 1024 1024\"><path d=\"M768 793.6v102.4H51.2v-102.4h716.8z m204.8-230.4v102.4H51.2v-102.4h921.6z m-204.8-230.4v102.4H51.2v-102.4h716.8zM972.8 102.4v102.4H51.2V102.4h921.6z\"></path></svg>",
+        "menuKeys": [
+            "justifyLeft",
+            "justifyRight",
+            "justifyCenter",
+            "justifyJustify"
+        ]
+    },
+    {
+        "key": "group-indent",
+        "title": "缩进",
+        "iconSvg": "<svg viewBox=\"0 0 1024 1024\"><path d=\"M0 64h1024v128H0z m384 192h640v128H384z m0 192h640v128H384z m0 192h640v128H384zM0 832h1024v128H0z m0-128V320l256 192z\"></path></svg>",
+        "menuKeys": [
+            "indent",
+            "delIndent"
+        ]
+    },
+    "|",
+    "emotion",
+    "insertLink",
+    "insertTable",
+    "codeBlock",
+    "divider",
+    "|",
+    "undo",
+    "redo"
+]
+
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
     const editor = editorRef.value
@@ -87,6 +152,12 @@ onBeforeUnmount(() => {
 
 const handleCreated = (editor) => {
     editorRef.value = editor // 记录 editor 实例，重要！
+    setTimeout(() => {
+        const toolbar = DomEditor.getToolbar(editor)
+
+        const curToolbarConfig = toolbar.getConfig()
+        console.log(curToolbarConfig.toolbarKeys) // 当前菜单排序和分组
+    }, 1000)
 }
 
 // 发布笔记,上传文件
@@ -126,6 +197,7 @@ const handleClick = () => {
 
     .wangEditor-container {
         @apply border border-solid border-black rounded-md w-full mb-4 p-1;
+
         .editor {
             @apply w-full mb-4;
         }
@@ -150,8 +222,10 @@ const handleClick = () => {
     .uploadBtn {
         @apply ml-auto mt-2 mb-2 border-2 border-solid border-black rounded-lg w-1/6 h-12 flex justify-center items-center cursor-pointer hover:bg-gray-100;
     }
+
     .createEula {
         @apply w-full flex justify-center items-center text-slate-400 mb-10;
+
         .elua {
             @apply text-blue-500;
         }

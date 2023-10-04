@@ -14,10 +14,7 @@
           <router-link to="/home">首页</router-link>
         </li>
         <li>
-          <router-link to="/note">笔记</router-link>
-        </li>
-        <li>
-          <router-link to="/create">创作</router-link>
+          <router-link to="/note">我的笔记</router-link>
         </li>
       </ul>
     </div>
