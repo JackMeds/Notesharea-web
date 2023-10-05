@@ -48,7 +48,15 @@ const routes = [
 const router = createRouter({
     // 使用hash(createWebHashHistory)模式，(createWebHistory是HTML5历史模式，支持SEO)
     history: createWebHistory(),
-    routes
+    routes: [
+        {
+            path:'/',
+            component: () => import('../views/home/index.vue')
+        },{
+            path:'/personalCenter',
+            component: () => import('../views/home/personalCenter.vue')
+        }
+    ],
 })
 
 // // 全局前置守卫，这里可以加入用户登录判断
