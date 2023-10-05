@@ -1,29 +1,33 @@
 <template>
-  <div class="2xl:container px-10">
-    <div class="flex flex-row mt-4">
-      <div class="navbar_logo basis-2/14">
-        <img src="../../public/images/logo.png" alt="">
-      </div>
-      <div class="navbar_menu basis-2/14">
+  <div class="px-10">
+    <div class="flex flex-row mt-3">
+      <div class="navbar_left basis-1/3">
         <ul>
-          <li><a href="">首页</a></li>
-          <li><a href="">排行榜</a></li>
+          <li class="basis-1/3">
+            <a href="">
+              <img src="/images/logo.png" alt="">
+            </a>
+          </li>
+          <li class="basis-1/3"><a href="">首页</a></li>
+          <li class="basis-1/3"><a href="">排行榜</a></li>
         </ul>
       </div>
-      <div class="navbar_search basis-4/14">
+      <div class="navbar_search basis-1/3">
         <div class="search">
           <input class="search_input" type="text" placeholder="">
-          <img class="mr-2" src="../../public/images/search.svg" alt="" @click="search">
+          <img class="mr-2" src="/images/search.svg" alt="" @click="search">
         </div>
 
       </div>
-      <div class="navbar_login basis-1/14">
-        <img class="img_login" src="../../public/images/login.jpg" alt="" :style="imageStyle"
-          @mouseover="showHoverContent">
+      <div class="navbar_right flex basis-1/3">
+        <ul class="basis-1/5">
+          <a href="">
+          <img class="img_login" src="/images/login.jpg" alt="" :style="imageStyle"
+            @mouseover="showHoverContent">
+        </a>
         <div v-if="isHovered" class="hover-content showHover" @mouseleave="hideHoverContent">
-
           <div class="hover-content-item mt-5">
-            <div>
+            <div class="flex username">
               <span>sakura</span>
             </div>
             <div class="flex flex-row item_fans">
@@ -49,11 +53,11 @@
 
               </div>
             </div>
-            <div class="mx-6 mt-2 bg-red-200 rounded-md">
+            <div class="mx-6 mt-2 rounded-md" >
               <span>个人简介</span>
               <p class="text-left">本人性格开朗、踏实、稳重、有活力，待人热情、真诚。</p>
             </div>
-            <div class="item_list">
+            <!-- <div class="item_list">
               <ul class="list-none">
                 <li class="item_li">
                   <a href="">
@@ -88,30 +92,31 @@
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> -->
           </div>
-
         </div>
-      </div>
-      <div class="navbar_menu basis-4/14">
-        <ul>
-          <li><a href="">消息</a></li>
-          <li><a href="">收藏</a></li>
-          <li><a href="">历史</a></li>
         </ul>
-      </div>
-      <div class="navbar_upload basis-1/14">
-        <a href="">
-          <div class="upload flex flex-row">
-            <div class="plus basis-1/6 ml-2 mt-1">
-              <img src="/images/add-circle.svg" alt="">
-            </div>
-            <div class="uploads basis-5/6">
-              发布笔记
-            </div>
+        
 
-          </div>
-        </a>
+        <ul class="basis-4/5 login_right">
+
+          <li class="basis-1/4"><a href="">消息</a></li>
+          <li class="basis-1/4"><a href="">收藏</a></li>
+          <li class="basis-1/4"><a href="">历史</a></li>
+          <li class="basis-1/4">
+            <a href="">
+              <div class="upload flex flex-row">
+                <div class="plus basis-1/6 ml-2 mt-1">
+                  <img src="/images/add-circle.svg" alt="">
+                </div>
+                <div class="uploads basis-5/6">
+                  发布笔记
+                </div>
+
+              </div>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -123,7 +128,7 @@ const isHovered = ref(false);
 const imageStyle = ref({});
 // imageStyle: {},
 //鼠标悬浮显示个人中心
-function showHoverContent() {
+function showHoverContent(event) {
   isHovered.value = true;
   imageStyle.value = { transform: 'scale(2.0)', transition: 'transform 0.3s ease-out' };
 }
@@ -134,60 +139,106 @@ function hideHoverContent() {
   imageStyle.value = { transform: 'scale(1)', transition: 'transform 0.3s ease-out' };
 }
 
+// function updateHoverContentPosition(event) {
+//   const image = this.$refs.image;
+//   if (image) {
+//     const imageRect = image.getBoundingClientRect();
+//     this.hoverContentStyle.top = `${imageRect.bottom}px`;
+//     this.hoverContentStyle.left = `${imageRect.left + imageRect.width / 2}px`;
+//   }
+// }
 defineProps({
   msg: String,
 })
 
 const count = ref(0)
 </script>
-<style scoped>
-.navbar_logo img {
+<style>
+.navbar_left img {
   @apply w-20;
 }
 
-.navbar_logo,
-.navbar_search,
+.navbar_left ul {
+  display: flex;
+}
+
+.navbar_left ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* .navbar_logo,
 .navbar_login,
 .navbar_upload,
-.navbar_menu {
-  @apply text-center;
+.navbar_menu,
+*/
+.navbar_search {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  @apply flex flex-row justify-center items-center;
 }
 
 .search {
-  @apply w-80 border-solid border-2 border-gray-500 rounded-xl;
+  @apply w-auto border-solid border-2 border-gray-500 rounded-xl flex flex-row justify-center items-center;
 }
 
 .search_input {
-  @apply w-60 border-none outline-none;
+  @apply w-60 border-none outline-none rounded-xl;
 }
 
 .search img {
   @apply w-5 float-right;
 }
 
-.navbar_login .img_login {
+.navbar_right .login_left {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar_right .login_left .item_left {
+  justify-content: center;
+  border: solid 1px red;
+}
+
+.navbar_right ul {
+  display: flex;
+}
+
+.navbar_right .login_right li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+}
+
+.navbar_right .img_login {
   @apply border-solid border-2 border-gray-500 rounded-full w-8 h-8 m-auto;
 }
 
-.navbar_menu ul li {
-  @apply float-left mr-10;
-}
-
-.navbar_menu ul {
-  @apply table m-auto;
-
-}
 
 .upload {
   @apply w-28 border-solid border-2 border-black rounded-2xl;
 }
 
 .showHover {
-  @apply w-56 absolute right-520;
+  @apply  absolute w-60 top-12 border-solid border-2 border-gray-500  -translate-x-1/2;
 
 }
-
-.hover-content-item ul li .img_left {
+.showHover .username{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.showHover .item_fans a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* .hover-content-item ul li .img_left {
   @apply w-5 h-5 float-left;
 }
 
@@ -214,5 +265,5 @@ const count = ref(0)
 
 .li_underline {
   @apply border-b border-slate-200 mt-3 w-40;
-}
+} */
 </style>

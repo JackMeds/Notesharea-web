@@ -13,11 +13,13 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.16",
     "naive-ui": "^2.34.4",
     "postcss": "^8.4.30",
     "tailwindcss": "^3.3.3",
+    "vfonts": "^0.0.3",
     "vite": "^4.4.5"
   }
 }
