@@ -14,4 +14,15 @@ export default defineConfig({
     }),
     Components({resolvers:[NaiveUiResolver()]})
   ],
+  server: {
+    // host: '127.0.0.1',
+    // port: 3000,
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3000',	//实际请求地址
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, '')
+    //   },
+    // }
+  }
 })
