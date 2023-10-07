@@ -11,6 +11,18 @@
                 @apply text-xs px-2 my-1;
             }
         }
+        .registerEula{
+            @apply mx-auto mt-2 pl-2 flex justify-start items-center;
+            .checkbox{
+                @apply mr-2
+            }
+            span {
+                @apply  text-xs;
+            }
+            .eula{
+                @apply text-blue-500;
+            }
+        }
 
     }
     .buttonGroup{
