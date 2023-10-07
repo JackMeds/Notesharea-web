@@ -1,117 +1,121 @@
 <template>
-  <div class="px-10 w-full bg-white">
-    <div class="flex flex-row mt-4">
-      <div class="navbar_logo basis-2/14">
-        <img src="/images/logo.png" alt="">
-      </div>
-      <div class="navbar_menu basis-2/14">
-        <ul>
-          <li><a href="">首页</a></li>
-          <li><a href="">排行榜</a></li>
+  <div class="px-10 bg-white min-w-max select-none">
+    <div class="flex flex-row mt-3">
+      <div class="navbar_left basis-1/3">
+        <ul class="flex flex-row">
+          <li class="">
+            <router-link to="">
+              <img src="/images/logo.png" alt="">
+            </router-link>
+          </li>
+          <li class="ml-10"><router-link to="">首页</router-link></li>
+          <li class="ml-10"><router-link to="">排行榜</router-link></li>
         </ul>
       </div>
-      <div class="navbar_search basis-4/14">
+      <div class="navbar_search basis-1/3">
         <div class="search">
           <input class="search_input" type="text" placeholder="">
           <img class="mr-2" src="/images/search.svg" alt="" @click="search">
         </div>
 
       </div>
-      <div class="navbar_login basis-1/14">
-        <img class="img_login" src="/images/login.jpg" alt="" :style="imageStyle"
-          @mouseover="showHoverContent">
-        <div v-show="isHovered" class="hover-content showHover" @mouseleave="hideHoverContent">
+      <div class="navbar_right flex basis-1/3 justify-end">
+        <ul class="mr-10">
+          <li>
+            <router-link to="">
+              <img class="img_login" src="/images/login.jpg" alt="" :style="imageStyle" @mouseover="showHoverContent">
+            </router-link>
+            <div class="hover-content showHover" :style="showHoverStyle" @mouseleave="hideHoverContent">
+              <div class="hover-content-item mt-8">
+                <div class="flex username">
+                  <span>sakura</span>
+                </div>
+                <div class="flex flex-row item_fans">
+                  <div class="basis-1/3">
+                    <router-link to="">
+                      <p>1</p>
+                      <p>关注</p>
+                    </router-link>
 
-          <div class="hover-content-item mt-5">
-            <div>
-              <span>sakura</span>
-            </div>
-            <div class="flex flex-row item_fans">
-              <div class="basis-1/3">
-                <a href="">
-                  <p>1</p>
-                  <p>关注</p>
-                </a>
+                  </div>
+                  <div class="basis-1/3">
+                    <router-link to="">
+                      <p>1</p>
+                      <p>粉丝</p>
+                    </router-link>
 
+                  </div>
+                  <div class="basis-1/3">
+                    <router-link to="">
+                      <p>1</p>
+                      <p>发布</p>
+                    </router-link>
+
+                  </div>
+                </div>
+                <div class="mx-6 mt-2 rounded-md">
+                  <p class="text-left">本人性格开朗、踏实、稳重、有活力，待人热情、真诚。</p>
+                </div>
+                <div class="itemList">
+                  <!-- 个人中心 -->
+                  <div class="item" @click="toPersonalCenter">
+                    <div class="itemImg">
+                      <img src="/images/customer-center.svg" alt="">
+                      <span>个人中心</span>
+                    </div>
+                    <div class="itemImg">
+                      <img src="/images/inright.svg" alt="">
+                    </div>
+                  </div>
+                  <!-- 投稿管理 -->
+                  <div class="item" @click="toCollect">
+                    <div class="itemImg">
+                      <img src="/images/collect.svg" alt="">
+                      <span>我的收藏</span>
+                    </div>
+                    <div class="itemImg">
+                      <img src="/images/inright.svg" alt="">
+                    </div>
+                  </div>
+                  <!-- 推荐服务 -->
+                  <div class="item" @click="toRecommend">
+                    <div class="itemImg">
+                      <img src="/images/like.svg" alt="">
+                      <span>推荐服务</span>
+                    </div>
+                    <div class="itemImg">
+                      <img src="/images/inright.svg" alt="">
+                    </div>
+                  </div>
+                  <!-- 退出登录 -->
+                  <div class="item" @click="toRecommend">
+                    <div class="itemImg">
+                      <img src="/images/logout.svg" alt="">
+                      <span>退出登录</span>
+                    </div>
+                    <div class="itemImg">
+                      <img src="/images/inright.svg" alt="">
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="basis-1/3">
-                <a href="">
-                  <p>1</p>
-                  <p>粉丝</p>
-                </a>
-
-              </div>
-              <div class="basis-1/3">
-                <a href="">
-                  <p>1</p>
-                  <p>发布</p>
-                </a>
-
-              </div>
             </div>
-            <div class="mx-6 mt-2 bg-red-200 rounded-md">
-              <span>个人简介</span>
-              <p class="text-left">本人性格开朗、踏实、稳重、有活力，待人热情、真诚。</p>
-            </div>
-            <div class="item_list">
-              <ul class="list-none">
-                <li class="item_li">
-                  <a href="">
-                    <img class="img_left" src="/images/customer-center.svg" alt="">
-                    <span>个人中心</span>
-                    <img class="img_right" src="/images/inright.svg" alt="">
-                  </a>
-
-                </li>
-                <li class="item_li">
-                  <a href="">
-                    <img class="img_left" src="/images/share.svg" alt="">
-                    <span>投稿管理</span>
-                    <img class="img_right" src="/images/inright.svg" alt="">
-                  </a>
-                </li>
-                <li class="item_li">
-                  <a href="">
-                    <img class="img_left" src="/images/like.svg" alt="">
-                    <span>推荐服务</span>
-                    <img class="img_right" src="/images/inright.svg" alt="">
-                  </a>
-                </li>
-
-                <li class="li_underline">
-                </li>
-                <li class="item_li mt-3 ">
-                  <a href="">
-                    <img class="img_left" src="/images/logout.svg" alt="">
-                    <span>退出登录</span>
-                    <img class="img_right" src="/images/inright.svg" alt="">
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div class="navbar_menu basis-4/14">
-        <ul>
-          <li><a href="">消息</a></li>
-          <li><a href="">收藏</a></li>
-          <li><a href="">历史</a></li>
+          </li>
         </ul>
-      </div>
-      <div class="navbar_upload basis-1/14">
-        <a href="">
-          <div class="upload flex flex-row">
-            <div class="plus basis-1/6 ml-2 mt-1">
-              <img src="/images/add-circle.svg" alt="">
-            </div>
-            <div class="uploads basis-5/6">
-              发布笔记
-            </div>
 
-          </div>
-        </a>
+
+        <ul class="login_right flex flex-row justify-end">
+
+          <li class="mr-10"><router-link to="">消息</router-link></li>
+          <li class="mr-10"><router-link to="">收藏</router-link></li>
+          <li class="mr-10"><router-link to="">历史</router-link></li>
+          <li class="">
+            <div class="createBtn">
+              <img src="/images/add-circle.svg" alt="">
+              <span>发布笔记</span>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -121,63 +125,89 @@ import { ref } from 'vue';
 
 const isHovered = ref(false);
 const imageStyle = ref({});
+const showHoverStyle = ref({ display: 'none' });
 // imageStyle: {},
 //鼠标悬浮显示个人中心
-function showHoverContent() {
-  // console.log('鼠标悬浮');
+function showHoverContent(event) {
   isHovered.value = true;
-  // console.log(isHovered.value);
-  imageStyle.value = { transform: 'scale(2.0)', transition: 'transform 0.3s ease-out' };
+  imageStyle.value = { transform: 'scale(2.0) translateY(10px) translateX(-8px)', transition: 'transform 0.3s ease-out' };
+  showHoverStyle.value = { display: 'block', "z-index": -1 };
 }
 
 //鼠标离开隐藏个人中心
 function hideHoverContent() {
-  // console.log('鼠标离开');
   isHovered.value = false;
-  imageStyle.value = { transform: 'scale(1)', transition: 'transform 0.3s ease-out' };
+  imageStyle.value = { transform: 'scale(1)translateY(0)', transition: 'transform 0.3s ease-out' };
+  showHoverStyle.value = { display: 'none' };
 }
 
+// function updateHoverContentPosition(event) {
+//   const image = this.$refs.image;
+//   if (image) {
+//     const imageRect = image.getBoundingClientRect();
+//     this.hoverContentStyle.top = `${imageRect.bottom}px`;
+//     this.hoverContentStyle.left = `${imageRect.left + imageRect.width / 2}px`;
+//   }
+// }
 defineProps({
   msg: String,
 })
 
+const count = ref(0)
 </script>
 <style>
-.navbar_logo img {
+.navbar_left img {
   @apply w-20;
 }
 
-.navbar_logo,
-.navbar_search,
-.navbar_login,
-.navbar_upload,
-.navbar_menu {
-  @apply text-center;
+.navbar_left ul {
+  @apply flex flex-row;
+}
+
+.navbar_left ul li {
+  @apply flex flex-row justify-center items-center;
+}
+
+.navbar_search {
+  @apply flex flex-row justify-center items-center;
 }
 
 .search {
-  @apply w-80 border-solid border-2 border-gray-500 rounded-xl;
+  @apply w-auto border-solid border-2 border-gray-500 rounded-full flex flex-row justify-center items-center;
 }
 
 .search_input {
-  @apply w-60 border-none outline-none;
+  @apply w-80 border-none outline-none ml-3 h-6;
 }
 
 .search img {
   @apply w-5 float-right;
 }
 
-.navbar_login .img_login {
-  @apply border-solid border-2 border-gray-500 rounded-full w-8 h-8 m-auto;
+.navbar_right .login_left {
+  @apply flex flex-row justify-center items-center;
 }
 
-.navbar_menu ul li {
-  @apply float-left mr-10;
+.navbar_right .login_right li {
+  @apply flex flex-row justify-center items-center;
 }
 
-.navbar_menu ul {
-  @apply table m-auto;
+.navbar_right {
+  .img_login {
+    @apply border-solid border-2 border-gray-500 rounded-full w-8 h-8 m-auto z-10;
+  }
+}
 
+.createBtn {
+  @apply h-7 flex border bg-white border-2 border-black rounded-2xl px-2 my-auto hover:cursor-pointer;
+
+  img {
+    @apply w-4 h-6 ml-2;
+  }
+
+  span {
+    @apply leading-6 px-2;
+  }
 }
 
 .upload {
@@ -185,35 +215,40 @@ defineProps({
 }
 
 .showHover {
-  @apply bg-white
-}
-
-.hover-content-item ul li .img_left {
-  @apply w-5 h-5 float-left;
-}
-
-.hover-content-item ul li .img_right {
-  @apply w-5 h-5 float-right;
-}
-
-.hover-content-item ul li span {
-  @apply mr-10;
+  @apply absolute w-60 top-12 border border-black rounded-md -translate-x-1/2 bg-white z-0;
 
 }
 
-.hover-content-item .item_li {
-  @apply rounded-md h-9 hover:bg-slate-100;
+.showHover .username {
+  @apply flex flex-row justify-center items-center;
 }
 
-.hover-content-item ul li a {
-  @apply relative top-1.5;
+.showHover .item_fans a {
+  @apply flex flex-row justify-center items-center;
 }
 
-.hover-content-item .item_list {
-  @apply mx-6 mt-2;
-}
+.itemList {
+  @apply flex flex-col w-9/12 mx-auto my-4;
 
-.li_underline {
-  @apply border-b border-slate-200 mt-3 w-40;
+  .item {
+    @apply flex flex-row justify-between items-center mt-2 cursor-pointer rounded-md active:text-blue-500 select-none;
+
+    .itemImg {
+      @apply flex;
+
+      img {
+        @apply w-6 h-6 ml-6;
+      }
+
+      span {
+        @apply ml-4;
+      }
+    }
+
+    .itemCenter {
+      @apply flex;
+    }
+  }
+
 }
 </style>
