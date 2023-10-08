@@ -10,26 +10,46 @@
         <label class="inputTitle">
           <p>用户名</p>
         </label>
-        <n-input type="text" placeholder="请输入用户名" clearable />
-
+        <n-input
+          type="text"
+          v-model:value="userName"
+          placeholder="请输入用户名"
+          clearable
+        />
       </div>
       <div class="fristPassword">
         <div class="inputTitle">
           <p>密码</p>
         </div>
-        <n-input type="password" show-password-on="mousedown" placeholder="请输入密码" clearable />
+        <n-input
+          type="password"
+          v-model:value="password"
+          show-password-on="mousedown"
+          placeholder="请输入密码"
+          clearable
+        />
       </div>
       <div class="secPassword">
         <div class="inputTitle">
           <p>确认密码</p>
         </div>
-        <n-input type="password" show-password-on="mousedown" placeholder="请输入密码" clearable />
+        <n-input
+          type="password"
+          show-password-on="mousedown"
+          placeholder="请输入密码"
+          clearable
+        />
       </div>
       <div class="email">
         <div class="inputTitle">
           <p>邮箱</p>
         </div>
-        <n-input type="text" placeholder="请输入邮箱" clearable />
+        <n-input
+          type="text"
+          v-model:value="email"
+          placeholder="请输入邮箱"
+          clearable
+        />
       </div>
       <div class="emailCode">
         <div class="inputTitle">
@@ -43,28 +63,65 @@
       <div class="registerEula">
         <n-checkbox class="checkbox" v-model:checked="eulaCheck" />
         <n-checkbox class="checkbox" v-model:checked="eulaCheck" />
-        <span>已阅读并同意</span><span class="eula">Notesharea用户协议</span><span>和</span><span class="eula">Notesharea隐私政策</span>
+        <span>已阅读并同意</span><span class="eula">Notesharea用户协议</span
+        ><span>和</span><span class="eula">Notesharea隐私政策</span>
       </div>
     </div>
     <div class="buttonGroup">
-      <n-button strong ghost type="primary" @click="toLogin">已有账户，去登录</n-button>
-      <n-button type="primary">注册</n-button>
+      <n-button strong ghost type="primary" @click="toLogin"
+        >已有账户，去登录</n-button
+      >
+      <n-button type="primary" @click="register">注册</n-button>
     </div>
-
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, getCurrentInstance } from "vue"; //导入ref函数
 import { useRouter } from "vue-router"; // 引入useRouter
-import authNav from "../../components/auth/authNav.vue"
+import authNav from "../../components/auth/authNav.vue";
+import CryptoJS from "crypto-js"; // 导入CryptoJS
 
+const { proxy } = getCurrentInstance();
 const router = useRouter();
+const userName = ref("");
+const password = ref("");
+const email = ref("");
+const plaintext = ref(""); // 输入要加密的文本
 
 let eulaCheck = ref(false);
 
 const toLogin = () => {
   router.push("/auth/login");
-}
+};
+
+const register = () => {
+  let passwordToSHA256 = password.value;
+  passwordToSHA256 = CryptoJS.SHA256(plaintext.value).toString(); // 对输入的密码进行加密
+  //构造要发送的数据
+  const data = {
+    userName: userName.value,
+    password: passwordToSHA256,
+    email: email.value,
+  };
+  console.log(data);
+  //发送请求
+  proxy.$http
+    .post("http://localhost:3000/api/user/register", data)
+    .then((response) => {
+      console.log(response.data);
+      // 请求成功后清空输入框的值
+      userName.value = "";
+      password.value = ""; // 清空密码输入框
+      email.value = "";
+    })
+    .catch((error) => {
+      console.log(error);
+      // 请求成功后清空输入框的值
+      userName.value = "";
+      password.value = ""; // 清空密码输入框
+      email.value = "";
+    });
+};
 </script>
 <style scoped>
 @import "../../style/auth/register.css";
