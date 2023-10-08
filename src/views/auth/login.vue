@@ -16,7 +16,7 @@
         <div class="inputTitle">
           <p>密码</p>
         </div>
-        <n-input type="password" show-password-on="mousedown" placeholder="请输入密码" clearable />
+        <n-input type="password" show-password-on="mousedown" placeholder="请输入密码" clearable v-model:value="password" />
       </div>
     </div>
     <div class="buttonGroup">
@@ -26,9 +26,10 @@
   </div>
 </template>
 <script setup>
-import { ref, getCurrentInstance  } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router"; // 引入useRouter
 import authNav from "../../components/auth/authNav.vue"
+import CryptoJS from 'crypto-js';
 
 const { proxy } = getCurrentInstance();
 const router = useRouter();
@@ -37,17 +38,48 @@ const toRegister = () => {
   router.push("/auth/register");
 }
 //用户名
-let username = ref("");
+const username = ref("");
+//密码
+const password = ref("");
 
 //处理登录
 const doLogin = () => {
+  const hashedData = ref('');
+  hashedData.value = CryptoJS.SHA256(password.value).toString();
   proxy.$http
-    .post("http://localhost:3000/api/user/isExist",{ userName: username.value })
+    .post("http://localhost:3000/api/user/login", { userName: username.value, password: hashedData.value })
     .then((response) => {
-      console.log(response);
+      console.log(response.data);
     });
 }
 </script>
-<style>
-@import "../../style/auth/login.css";
+<style scoped>
+.centerInput {
+  @apply container mx-auto w-1/3 mt-40;
+
+  .title {
+    @apply text-2xl border-b border-black px-5;
+  }
+
+  .inputGroup {
+    @apply mt-5;
+
+    .inputTitle {
+      @apply block;
+
+      p {
+        @apply text-xs px-2 my-1;
+      }
+    }
+
+  }
+
+  .buttonGroup {
+    @apply mt-5 float-right;
+
+    .n-button {
+      @apply ml-2;
+    }
+  }
+}
 </style>

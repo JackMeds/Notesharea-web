@@ -2,16 +2,14 @@
   <div class="navContainer">
     <div class="left">
       <div class="logo">
-        <router-link to="/home">
+        <router-link to="/">
           <img src="/images/logo.png" alt="" />
         </router-link>
-        <router-link to="/home">
           <h1>上传笔记</h1>
-        </router-link>
       </div>
       <ul>
         <li>
-          <router-link to="/home">首页</router-link>
+          <router-link to="/">首页</router-link>
         </li>
         <li>
           <router-link to="/note">我的笔记</router-link>
@@ -33,7 +31,7 @@ import { ref } from 'vue';
 </script>
 <style>
 .navContainer {
-  @apply w-full h-16 z-50 fixed top-0 left-0 right-0 bg-white flex flex-row justify-between items-center px-10;
+  @apply w-full h-16 z-50 fixed top-0 left-0 right-0 bg-white flex flex-row justify-between items-center px-10 select-none;
 
   .left {
     @apply flex flex-row justify-start items-center;

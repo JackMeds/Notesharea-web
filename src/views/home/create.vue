@@ -152,12 +152,12 @@ onBeforeUnmount(() => {
 
 const handleCreated = (editor) => {
     editorRef.value = editor // 记录 editor 实例，重要！
-    setTimeout(() => {
-        const toolbar = DomEditor.getToolbar(editor)
+    // setTimeout(() => {
+    //     const toolbar = DomEditor.getToolbar(editor)
 
-        const curToolbarConfig = toolbar.getConfig()
-        console.log(curToolbarConfig.toolbarKeys) // 当前菜单排序和分组
-    }, 1000)
+    //     const curToolbarConfig = toolbar.getConfig()
+    //     console.log(curToolbarConfig.toolbarKeys) // 当前菜单排序和分组
+    // }, 1000)
 }
 
 // 发布笔记,上传文件
