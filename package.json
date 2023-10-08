@@ -12,6 +12,7 @@
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.5.1",
+    "crypto-js": "^4.1.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },
