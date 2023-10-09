@@ -2,16 +2,16 @@
     <div class="navContainer">
         <div class="left">
             <div class="logo">
-                <router-link to="/home">
+                <router-link to="/">
                     <img src="/images/logo.png" alt="" />
                 </router-link>
-                <router-link to="/home">
+                <router-link to="/">
                     <h1>Notesharea</h1>
                 </router-link>
             </div>
             <ul>
                 <li>
-                    <router-link to="/home">首页</router-link>
+                    <router-link to="/">首页</router-link>
                 </li>
                 <li>
                     <router-link to="/note">我的笔记</router-link>

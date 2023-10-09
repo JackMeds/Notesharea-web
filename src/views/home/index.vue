@@ -21,6 +21,17 @@ import indexleftlist from "../../components/index/indexLeftList.vue";
 import indexrightlist from "../../components/index/indexRightList.vue";
 import indexTextList from "../../components/index/indexTextList.vue";
 
+import { isLogin } from "../../js/isLogin"
+
+// console.log(isLogin());
+
+// 使用 isLogin 函数进行登录状态检查
+isLogin().then((res) => {
+  console.log(res);
+}).catch((err) => {
+  console.log(err);
+})
+
 const isScrolled = ref(false);
 
 // 监听页面滚动事件
@@ -40,25 +51,31 @@ onMounted(() => {
 .page-container {
   background-color: #ffffff;
 }
+
 .headerNav {
   @apply w-full h-16 z-50 fixed top-0 left-0 right-0;
 }
+
 .headerNull {
   @apply w-full h-16;
 }
+
 .mainList {
   @apply container mx-auto flex;
+
   .leftList {
     @apply w-1/6 max-xl:text-sm max-lg:text-xs max-md:hidden flex-auto m-0 px-1;
+
     .indexleftlist {
       @apply w-full mt-4 sticky top-24;
     }
   }
+
   .rightList {
     @apply md:w-5/6 w-full flex-auto px-4;
+
     .indexTextList {
       @apply w-full mx-4 my-4;
     }
   }
-}
-</style>
+}</style>
