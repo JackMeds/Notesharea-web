@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <headerNav class="headerNav" :class="{ 'shadow-lg': isScrolled }" />
+    <headerNav class="headerNav" :class="{ 'shadow-lg': isScrolled }" :is-login-status="isLoginStatus"/>
     <div class="headerNull"></div>
     <div class="mainList">
       <div class="leftList">
@@ -25,12 +25,15 @@ import { isLogin } from "../../js/isLogin"
 
 // console.log(isLogin());
 
+const isLoginStatus = ref("");
+
 // 使用 isLogin 函数进行登录状态检查
 isLogin().then((res) => {
   console.log(res);
+  isLoginStatus.value = res; // 将值保存到isLoginStatus
 }).catch((err) => {
   console.log(err);
-})
+});
 
 const isScrolled = ref(false);
 

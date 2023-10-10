@@ -22,9 +22,17 @@
       <div class="navbar_right flex basis-1/3 justify-end">
         <ul class="mr-10">
           <li>
-            <router-link to="">
-              <img class="img_login" src="/images/login.jpg" alt="" :style="imageStyle" @mouseover="showHoverContent">
-            </router-link>
+            <div class="loginContent">
+              <div class="loginImg">
+                <img class="img_login" v-show="img_login" src="/images/login.jpg" alt="" :style="imageStyle"
+                  @mouseover="showHoverContent">
+              </div>
+              <div class="loginWord" v-show="loginWord">
+                未登录
+              </div>
+
+            </div>
+            <!-- 显示隐藏内容 -->
             <div class="hover-content showHover" :style="showHoverStyle" @mouseleave="hideHoverContent">
               <div class="hover-content-item mt-8">
                 <div class="flex username">
@@ -121,40 +129,53 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-
+import { ref, onMounted } from 'vue';
+const { isLoginStatus } = defineProps(['isLoginStatus']);
 const isHovered = ref(false);
-const imageStyle = ref({});
-const showHoverStyle = ref({ display: 'none' });
-// imageStyle: {},
-//鼠标悬浮显示个人中心
-function showHoverContent(event) {
-  isHovered.value = true;
-  imageStyle.value = { transform: 'scale(2.0) translateY(10px) translateX(-8px)', transition: 'transform 0.3s ease-out' };
-  showHoverStyle.value = { display: 'block', "z-index": -1 };
+const imageStyle = ref({ transform: '', transition: '' });
+const showHoverStyle = ref({ display: 'none', zIndex: -1 });
+const loginWord = ref(false);
+const img_login = ref(true);
+/* 钩子函数 */
+// onMounted(() => {
+//   console.log('Component mounted');
+//   if (!isLoginStatus) {
+//     console.log(isLoginStatus);
+//     img_login.value = false;
+//     loginWord.value = true;
+//     isHovered.value = false;
+//   } else {
+//     return
+//   }
+// });
+
+console.log(isLoginStatus);
+
+function showHoverContent() {
+  if (isLoginStatus === true) {
+    console.log(isLoginStatus);
+    isHovered.value = true;
+    imageStyle.value = {
+      transform: 'scale(2.0) translateY(10px) translateX(-8px)',
+      transition: 'transform 0.3s ease-out'
+    };
+    showHoverStyle.value = { display: 'block', zIndex: -1 };
+  } else {
+    return
+  }
+
 }
 
-//鼠标离开隐藏个人中心
 function hideHoverContent() {
   isHovered.value = false;
-  imageStyle.value = { transform: 'scale(1)translateY(0)', transition: 'transform 0.3s ease-out' };
-  showHoverStyle.value = { display: 'none' };
+  imageStyle.value = { transform: 'scale(1) translateY(0)', transition: 'transform 0.3s ease-out' };
+  showHoverStyle.value = { display: 'none', zIndex: -1 };
 }
 
-// function updateHoverContentPosition(event) {
-//   const image = this.$refs.image;
-//   if (image) {
-//     const imageRect = image.getBoundingClientRect();
-//     this.hoverContentStyle.top = `${imageRect.bottom}px`;
-//     this.hoverContentStyle.left = `${imageRect.left + imageRect.width / 2}px`;
-//   }
-// }
-defineProps({
-  msg: String,
-})
-
-const count = ref(0)
+const count = ref(0);
 </script>
+
+
 <style>
 .navbar_left img {
   @apply w-20;
