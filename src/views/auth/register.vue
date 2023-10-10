@@ -76,7 +76,7 @@ const register = () => {
   //构造要发送的数据
   const data = {
     userName: userName.value,
-    password: passwordToSHA256,
+    password: password.value,
     email: email.value,
   };
   console.log(data);
