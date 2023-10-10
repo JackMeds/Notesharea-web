@@ -2,20 +2,20 @@
   <div class="textList">
     <div class="textListItem" v-for="item in textList">
       <div class="textListItemLeft">
-        <div class="textListItemLeftImg">
+        <div class="textListItemLeftImg" @click="toNote(item.noteId)">
           <img :src="item.imgurl" alt="" />
         </div>
       </div>
       <div class="textListItemContent">
         <div class="textListItemheader">
           <div class="textListItemContentTitle">
-            <span>{{ item.title }}</span>
+            <span @click="toNote(item.noteId)">{{ item.title }}</span>
           </div>
           <div class="textListItemContentText">
-            <span>{{ item.intro }}</span>
+            <span @click="toNote(item.noteId)">{{ item.intro }}</span>
           </div>
           <div class="textListItemContentInfo">
-            <span class="username">{{ item.username }}</span>
+            <span class="username" @click="toNote(item.authorId)">{{ item.username }}</span>
             <span class="date">{{ item.date }}</span>
           </div>
         </div>
@@ -45,13 +45,17 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router"; // 引入useRouter
+
+// 路由
+const router = useRouter();
 
 //列表数据
 const textList = ref([
   {
-    id: 1,
+    noteId: 1,
     title: "高等数学-不定积分",
-    username: "贺大爷",
+    authorName: "贺大爷",
     date: "2021-10-10",
     intro:
       "这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享",
@@ -61,9 +65,9 @@ const textList = ref([
     comment: 808,
   },
   {
-    id: 2,
+    noteId: 2,
     title: "高等数学-不定积分",
-    username: "贺大爷",
+    authorName: "贺大爷",
     date: "2021-10-10",
     intro:
       "这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享",
@@ -73,9 +77,9 @@ const textList = ref([
     comment: 808,
   },
   {
-    id: 3,
+    noteId: 3,
     title: "高等数学-不定积分",
-    username: "贺大爷",
+    authorName: "贺大爷",
     date: "2021-10-10",
     intro:
       "这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享",
@@ -85,6 +89,12 @@ const textList = ref([
     comment: 808,
   },
 ]);
+
+//跳转到笔记详情页
+const toNote = (noteId) => {
+  router.push("/note/" + noteId);
+};
+
 </script>
 <style>
 .textList {
@@ -94,9 +104,9 @@ const textList = ref([
     .textListItemLeft {
       @apply w-1/4;
       .textListItemLeftImg {
-        @apply w-full;
+        @apply aspect-[4/3] w-full rounded-sm overflow-hidden cursor-pointer;
         img {
-          @apply aspect-[4/3];
+          @apply w-full h-full object-cover object-center;
         }
       }
     }
@@ -106,12 +116,12 @@ const textList = ref([
         .textListItemContentTitle {
           @apply mb-2;
           span {
-            @apply text-2xl;
+            @apply text-2xl cursor-pointer;
           }
         }
         .textListItemContentText {
           span {
-            @apply text-sm text-gray-500;
+            @apply text-sm text-gray-500  cursor-pointer;
           }
         }
         .textListItemContentInfo {
@@ -119,7 +129,7 @@ const textList = ref([
             @apply text-xs text-gray-400;
           }
           .date {
-            @apply text-xs text-gray-400 ml-4;
+            @apply text-xs text-gray-400 ;
           }
         }
       }
