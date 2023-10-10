@@ -10,6 +10,7 @@
           </li>
           <li class="ml-10"><router-link to="">首页</router-link></li>
           <li class="ml-10"><router-link to="">排行榜</router-link></li>
+          <!-- <li class="ml-10"><router-link to="">{{props.LoginInfo}}</router-link></li> -->
         </ul>
       </div>
       <div class="navbar_search basis-1/3">
@@ -129,13 +130,22 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
-const { isLoginStatus } = defineProps(['isLoginStatus']);
-const isHovered = ref(false);
-const imageStyle = ref({ transform: '', transition: '' });
-const showHoverStyle = ref({ display: 'none', zIndex: -1 });
-const loginWord = ref(false);
-const img_login = ref(true);
+import { ref, defineProps, onUpdated } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const props = defineProps({
+  LoginInfo: {
+    type: Object
+  }
+})
+
+onUpdated(() => {
+  console.log(props.LoginInfo);
+});
+console.log("直接log："+props.LoginInfo);
+
 /* 钩子函数 */
 // onMounted(() => {
 //   console.log('Component mounted');
@@ -149,7 +159,12 @@ const img_login = ref(true);
 //   }
 // });
 
-console.log(isLoginStatus);
+
+const isHovered = ref(false);
+const imageStyle = ref({ transform: '', transition: '' });
+const showHoverStyle = ref({ display: 'none', zIndex: -1 });
+const loginWord = ref(false);
+const img_login = ref(true);
 
 function showHoverContent() {
   if (isLoginStatus === true) {

@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <headerNav class="headerNav" :class="{ 'shadow-lg': isScrolled }" :is-login-status="isLoginStatus"/>
+    <headerNav class="headerNav" :class="{ 'shadow-lg': isScrolled }" :LoginInfo="LoginInfo" />
     <div class="headerNull"></div>
     <div class="mainList">
       <div class="leftList">
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import headerNav from "../../components/nav.vue";
 import indexleftlist from "../../components/index/indexLeftList.vue";
 import indexrightlist from "../../components/index/indexRightList.vue";
@@ -25,15 +25,17 @@ import { isLogin } from "../../js/isLogin"
 
 // console.log(isLogin());
 
-const isLoginStatus = ref("");
 
+const LoginInfo = ref("");
 // 使用 isLogin 函数进行登录状态检查
 isLogin().then((res) => {
   console.log(res);
-  isLoginStatus.value = res; // 将值保存到isLoginStatus
+  LoginInfo.value = res; // 将值保存到LoginInfo
 }).catch((err) => {
   console.log(err);
 });
+
+
 
 const isScrolled = ref(false);
 
@@ -81,4 +83,5 @@ onMounted(() => {
       @apply w-full mx-4 my-4;
     }
   }
-}</style>
+}
+</style>
