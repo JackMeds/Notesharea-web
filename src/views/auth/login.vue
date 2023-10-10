@@ -51,7 +51,7 @@ const password = ref("");
 const doLogin = () => {
   const hashedData = ref('');
   hashedData.value = CryptoJS.SHA256(password.value).toString();
-  let data = { "userName": username.value, "password": hashedData.value };
+  let data = { "userName": username.value, "password": password.value };
   proxy.$http
     .post("http://localhost:3000/api/user/login", data)
     .then((response) => {
