@@ -36,7 +36,7 @@
             <div class="hover-content showHover" :style="showHoverStyle" @mouseleave="hideHoverContent">
               <div class="hover-content-item mt-8">
                 <div class="flex username">
-                  <span>{{ props.LoginInfo.userInfo.nickName }}</span>
+                  <span>{{ nickName }}</span>
                 </div>
                 <div class="flex flex-row item_fans">
                   <div class="basis-1/3">
@@ -154,10 +154,20 @@ if (props.LoginInfo.isLogin) {
   loginWord.value = true;
 }
 
+//如果昵称为空，设置默认值
+const nickName = ref("");
+if (props.LoginInfo.isLogin == false) {
+  nickName.value = "未登录";
+} else {
+  nickName.value = props.LoginInfo.userInfo.nickName;
+}
+
 //如果个人简介为空，设置默认值
-const userIntro = ref(props.LoginInfo.userInfo.userIntro);
+const userIntro = ref("");
 if (props.LoginInfo.isLogin.userIntro == null) {
   userIntro.value = "这个人很懒，什么都没有留下";
+} else {
+  userIntro.value = props.LoginInfo.userInfo.userIntro;
 }
 
 
