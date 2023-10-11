@@ -7,12 +7,12 @@
     <div class="index_Imglist">
       <!-- 内容图片及内容 -->
       <div class="Imglist" v-for="(item, index) in leftList" :key="index">
-        <div class="listItemPic" @click="toNote(item.noteId)">
-          <img :src="item.imgurl" alt="" />
+        <div class="listItemPic">
+          <img :src="item.imgurl" alt="" @click="toNote(item.noteId)"/>
         </div>
         <div class="text">
-          <p class="Title" @click="toNote(item.noteId)">{{ item.title }}</p>
-          <p class="UserName" @click="toNote(item.authorId)">{{ item.authorName }}</p>
+          <span class="Title" @click="toNote(item.noteId)">{{ item.title }}</span><br>
+          <span class="UserName" @click="toNote(item.authorId)">{{ item.authorName }}</span>
         </div>
       </div>
     </div>
