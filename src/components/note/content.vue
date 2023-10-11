@@ -2,7 +2,7 @@
     <div class="noteContainer">
         <div class="title">
             <div class="titleText">
-                <h1>高等数学不定积分</h1>
+                <h1>{{noteInfo.title}}</h1>
             </div>
             <div class="titleBtn">
                 <img src="/images/note/download.svg" alt="">
@@ -11,19 +11,21 @@
         </div>
         <div class="info">
             <div class="infoText">
-                <p>作者：贺大爷</p>
-                <p>时间：2021-01-01</p>
+                <p>作者：{{noteInfo.user.nickName}}</p>
+                <p>发布时间：{{ noteInfo.createdAt }}</p>
+                <p>更新时间：{{ noteInfo.updatedAt }}</p>
+                <p>浏览量：{{noteInfo.viewCount}}</p>
                 <p>标签：标签</p>
             </div>
         </div>
         <div class="author">
             <div class="authorInfo">
                 <div class="authorPic">
-                    <img src="/images/login.jpg" alt="" />
+                    <img :src="noteInfo.user.picture" alt="" />
                 </div>
                 <div class="authorRightContainer">
                     <div class="name">
-                        <p>贺大爷</p>
+                        <p>{{noteInfo.user.nickName}}</p>
                     </div>
                     <div class="follower">
                         <p>粉丝：100</p>
@@ -44,10 +46,7 @@
                 </n-carousel>
             </div>
             <div class="contentText">
-                <p>12月20日，辽宁锦州某高校学生表演用裤子切黄瓜。画面中，裤子被冻的十分硬挺，学生拿着裤子劈开黄瓜。据悉，当时室外温度-14℃，洗完的裤子被冻的很结实。当事人表示，寝室正好有根黄瓜，想着拍个视频，觉得挺有意思的，南方舍友当时都惊呆了。12月20日，辽宁锦州某高校学生表演用裤子切黄瓜。画面中，裤子被冻的十分硬挺，学生拿着裤子劈开黄瓜。据悉，当时室外温度-14℃，洗完的裤子被冻的很结实。当事人表示，寝室正好有根黄瓜，想着拍个视频，觉得挺有意思的，南方舍友当时都惊呆了。12月20日，辽宁锦州某高校学生表演用裤子切黄瓜。画面中，裤子被冻的十分硬挺，学生拿着裤子劈开黄瓜。据悉，当时室外温度-14℃，洗完的裤子被冻的很结实。当事人表示，寝室正好有根黄瓜，想着拍个视频，觉得挺有意思的，南方舍友当时都惊呆了。
-                    ————————————————
-                    版权声明：本文为CSDN博主「小懒羊爱吃草」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-                    原文链接：https://blog.csdn.net/csucsgoat/article/details/111622582</p>
+                <p>{{noteInfo.content}}</p>
             </div>
         </div>
         <div class="comment">
@@ -56,7 +55,8 @@
                     <img src="/images/login.jpg" alt="">
                 </div>
                 <div class="commentInput">
-                    <n-input class="commentInputArea" placeholder="发布一条友善的评论吧" type="textarea" maxlength="120" show-count round autosize />
+                    <n-input class="commentInputArea" placeholder="发布一条友善的评论吧" type="textarea" maxlength="120" show-count
+                        round autosize />
                 </div>
                 <div class="commentBtnContainer">
                     <div class="commentBtn">
@@ -95,7 +95,42 @@
         </div>
     </div>
 </template>
-<script setup></script>
+<script setup>
+import { ref, getCurrentInstance, defineProps } from "vue";
+import { useRouter } from "vue-router";
+
+const { proxy } = getCurrentInstance();
+
+const props = defineProps({
+    noteInfo: {
+        type: Object
+    }
+})
+//noteInfo:
+// {
+//     "id": 1,
+//     "userId": 3,
+//     "title": "高等数学笔记",
+//     "content": "定积分",
+//     "img": "default",
+//     "downloadLink": "default",
+//     "likeCount": 0,
+//     "collectCount": 0,
+//     "commentCount": 0,
+//     "viewCount": 0,
+//     "createdAt": "2023-10-09T08:49:00.000Z",
+//     "updatedAt": "2023-10-09T08:49:00.000Z",
+//     "user": {
+//         "userName": "lisi",
+//         "nickName": "lisi",
+//         "picture": null
+//     },
+//     "collects": [],
+//     "comments": [],
+//     "likes": []
+// }
+const noteInfo = ref(props.noteInfo);
+</script>
 <style>
 .noteContainer {
     @apply w-full flex flex-col my-2;
@@ -165,9 +200,11 @@
 
         .follow {
             @apply my-auto h-7 flex bg-white border-2 border-black rounded-2xl px-5 hover:cursor-pointer;
-            img{
+
+            img {
                 @apply w-4 h-6;
             }
+
             span {
                 @apply w-full leading-6;
             }
@@ -227,34 +264,45 @@
 
         .commentList {
             @apply w-full;
-            .commentItem{
+
+            .commentItem {
                 @apply w-full flex flex-row my-4;
-                .commentItemLeft{
+
+                .commentItemLeft {
                     @apply w-16 flex justify-center;
-                    .userPic{
+
+                    .userPic {
                         @apply w-16 h-16 flex justify-center;
-                        img{
+
+                        img {
                             @apply object-cover h-16 w-16 rounded-full my-auto;
                         }
                     }
                 }
-                .commentItemRight{
+
+                .commentItemRight {
                     @apply w-11/12 ml-4;
-                    .userName{
+
+                    .userName {
                         @apply w-full text-sm font-bold;
                     }
-                    .commentTime{
+
+                    .commentTime {
                         @apply w-full text-xs text-gray-400;
                     }
-                    .commentText{
+
+                    .commentText {
                         @apply w-full;
                     }
-                    .function{
+
+                    .function {
                         @apply w-full flex justify-start;
-                        .like{
+
+                        .like {
                             @apply w-1/12 flex justify-center;
                         }
-                        .reply{
+
+                        .reply {
                             @apply w-1/12 flex justify-center;
                         }
                     }

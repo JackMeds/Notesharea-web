@@ -7,7 +7,7 @@
                 <floatList class="floatList" />
             </div>
             <div class="content">
-                <noteContent class="noteContent" />
+                <noteContent class="noteContent" :noteInfo="noteInfo"/>
             </div>
             <div class="rightContainer">
 
@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from "vue";
+import { ref, onMounted, defineProps, getCurrentInstance } from "vue";
 import headerNav from "../../components/nav.vue";
 import noteContent from "../../components/note/content.vue";
 import floatList from "../../components/note/floatList.vue";
@@ -28,15 +28,13 @@ import Cookies from "js-cookie";
 import { isLogin } from "../../js/isLogin"
 
 const router = useRouter();
+const proxy = getCurrentInstance().proxy;
 
 const props = defineProps({
     noteId: {
-        type: Number
+        type: String
     }
 })
-
-// 使用 isLogin 函数进行登录状态检查,返回一个对象
-const LoginInfo = ref(isLogin());
 
 // 使用 isLogin 函数进行登录状态检查,返回一个对象
 const LoginInfo = ref(isLogin());
@@ -55,9 +53,27 @@ onMounted(() => {
 
 console.log(props.noteId);
 //查询笔记内容
-const getNoteContent = () => {
-    
+const noteInfo = ref({});
+const getNoteContent = async () => {
+    try {
+        await proxy.$http
+            .post("http://localhost:3000/api/note/detail", { noteId: props.noteId })
+            .then((response) => {
+                console.log(response.data);
+                if (response.data.code == 0) {
+                    //查询成功
+                    noteInfo.value = response.data.data;
+                } else {
+                    //查询失败
+                    console.log(response.data.msg);
+                }
+            })
+    } catch (error) {
+        console.log(error);
+    }
 }
+
+getNoteContent();
 
 </script>
 
