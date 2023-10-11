@@ -26,7 +26,6 @@ import { isLogin } from "../../js/isLogin"
 // 使用 isLogin 函数进行登录状态检查,返回一个对象
 const LoginInfo = ref(isLogin());
 
-
 const isScrolled = ref(false);
 
 // 监听页面滚动事件

@@ -158,7 +158,7 @@ if (props.LoginInfo.isLogin) {
 //如果昵称为空，设置默认值
 const nickName = ref("");
 if (props.LoginInfo.isLogin == false) {
-  nickName.value = "未设置昵称";
+  nickName.value = "未登录";
 } else {
   nickName.value = props.LoginInfo.userInfo.nickName;
 }
