@@ -23,8 +23,6 @@ import indexTextList from "../../components/index/indexTextList.vue";
 
 import { isLogin } from "../../js/isLogin"
 
-
-
 // 使用 isLogin 函数进行登录状态检查,返回一个对象
 const LoginInfo = ref(isLogin());
 
@@ -44,16 +42,9 @@ onMounted(() => {
 
 <style scoped>
 /* @import "../../style/home/nav.css"; */
+@import "../../style/headerNav.css";
 .page-container {
   background-color: #ffffff;
-}
-
-.headerNav {
-  @apply w-full h-16 z-50 fixed top-0 left-0 right-0;
-}
-
-.headerNull {
-  @apply w-full h-16;
 }
 
 .mainList {

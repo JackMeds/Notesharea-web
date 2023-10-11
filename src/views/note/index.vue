@@ -22,16 +22,21 @@ import { ref, onMounted, defineProps } from "vue";
 import headerNav from "../../components/nav.vue";
 import noteContent from "../../components/note/content.vue";
 import floatList from "../../components/note/floatList.vue";
+import { useRouter } from 'vue-router';
+import Cookies from "js-cookie";
+
+import { isLogin } from "../../js/isLogin"
+
+const router = useRouter();
 
 const props = defineProps({
     noteId: {
-        type: Number,
-        default: 0
-    },
-    LoginInfo: {
-        type: Object
+        type: Number
     }
-});
+})
+
+// 使用 isLogin 函数进行登录状态检查,返回一个对象
+const LoginInfo = ref(isLogin());
 
 // 使用 isLogin 函数进行登录状态检查,返回一个对象
 const LoginInfo = ref(isLogin());
@@ -48,20 +53,21 @@ onMounted(() => {
     window.addEventListener('scroll', handleScroll);
 });
 
+console.log(props.noteId);
+//查询笔记内容
+const getNoteContent = () => {
+    
+}
+
 </script>
 
 <style>
+@import "../../style/headerNav.css";
+
 .page-container {
     background-color: #ffffff;
 }
 
-.headerNav {
-    @apply w-full h-16 z-50 fixed top-0 left-0 right-0;
-}
-
-.headerNull {
-    @apply w-full h-16;
-}
 
 .mainContainer {
     @apply container mx-auto flex-row flex;
@@ -93,4 +99,3 @@ onMounted(() => {
     @apply fixed bottom-6;
 }
 </style>
-  

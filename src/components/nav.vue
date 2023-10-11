@@ -96,7 +96,7 @@
                     </div>
                   </div>
                   <!-- 退出登录 -->
-                  <div class="item" @click="toRecommend">
+                  <div class="item" @click="doLogout">
                     <div class="itemImg">
                       <img src="/images/logout.svg" alt="">
                       <span>退出登录</span>
@@ -131,6 +131,7 @@
 <script setup>
 import { ref, defineProps, onUpdated, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import Cookies from "js-cookie";
 
 const router = useRouter();
 
@@ -200,6 +201,25 @@ function hideHoverContent() {
   showHoverStyle.value = { display: 'none', zIndex: -1 };
 }
 
+//跳转到个人中心
+function toPersonalCenter() {
+  router.push('/personalCenter');
+}
+//跳转到我的收藏
+function toCollect() {
+  router.push('/collect');
+}
+//跳转到推荐服务
+function toRecommend() {
+  router.push('/recommend');
+}
+//退出登录
+function doLogout() {
+  //删除cookie
+  Cookies.remove('userInfo');
+  //页面刷新
+  window.location.reload();
+}
 </script>
 
 

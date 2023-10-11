@@ -1,0 +1,7 @@
+.headerNav {
+    @apply w-full h-14 z-50 fixed top-0 left-0 right-0;
+}
+
+.headerNull {
+    @apply w-full h-14;
+}
