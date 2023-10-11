@@ -75,7 +75,7 @@ const doLogin = () => {
         // 现在 sessionData 包含了你存储在 cookie 中的 JavaScript 对象
         console.log(cookieData);
         //跳转到首页
-        // router.push("/");
+        router.push("/");
       }
       // message.error(code: 10004, message: '登录失败，用户名或密码错误');
       else if (response.data.code == 10004) {

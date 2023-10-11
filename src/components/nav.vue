@@ -24,12 +24,11 @@
         <ul class="mr-10">
           <li>
             <div class="loginContent">
-              <div class="loginImg">
-                <img class="img_login" v-show="img_login" src="/images/login.jpg" alt="" :style="imageStyle"
-                  @mouseover="showHoverContent">
+              <div class="loginImg" v-show="loginImg">
+                <img class="img_login" src="/images/login.jpg" alt="" :style="imageStyle" @mouseover="showHoverContent">
               </div>
-              <div class="loginWord" v-show="loginWord">
-                未登录
+              <div class="loginWord" @click="toLogin()" v-show="loginWord">
+                <span>登录</span>
               </div>
 
             </div>
@@ -37,7 +36,7 @@
             <div class="hover-content showHover" :style="showHoverStyle" @mouseleave="hideHoverContent">
               <div class="hover-content-item mt-8">
                 <div class="flex username">
-                  <span>sakura</span>
+                  <span>{{ props.LoginInfo.userInfo.nickName }}</span>
                 </div>
                 <div class="flex flex-row item_fans">
                   <div class="basis-1/3">
@@ -63,7 +62,7 @@
                   </div>
                 </div>
                 <div class="mx-6 mt-2 rounded-md">
-                  <p class="text-left">本人性格开朗、踏实、稳重、有活力，待人热情、真诚。</p>
+                  <p class="text-left">{{ userIntro }}</p>
                 </div>
                 <div class="itemList">
                   <!-- 个人中心 -->
@@ -130,7 +129,7 @@
   </div>
 </template>
 <script setup>
-import { ref, defineProps, onUpdated } from 'vue';
+import { ref, defineProps, onUpdated, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -139,55 +138,58 @@ const props = defineProps({
   LoginInfo: {
     type: Object
   }
+
 })
 
-onUpdated(() => {
-  console.log(props.LoginInfo);
-});
-console.log("直接log："+props.LoginInfo);
+//如果isLogin的的值为true，显示头像，否则显示登录
+const loginImg = ref(false);
+const loginWord = ref(true);
+console.log(props.LoginInfo.userInfo)
 
-/* 钩子函数 */
-// onMounted(() => {
-//   console.log('Component mounted');
-//   if (!isLoginStatus) {
-//     console.log(isLoginStatus);
-//     img_login.value = false;
-//     loginWord.value = true;
-//     isHovered.value = false;
-//   } else {
-//     return
-//   }
-// });
+if (props.LoginInfo.isLogin) {
+  loginImg.value = true;
+  loginWord.value = false;
+} else {
+  loginImg.value = false;
+  loginWord.value = true;
+}
+
+//如果个人简介为空，设置默认值
+const userIntro = ref(props.LoginInfo.userInfo.userIntro);
+if (props.LoginInfo.isLogin.userIntro == null) {
+  userIntro.value = "这个人很懒，什么都没有留下";
+}
+
+
+//跳转到登录页面
+function toLogin() {
+  router.push('/auth/login');
+}
 
 
 const isHovered = ref(false);
 const imageStyle = ref({ transform: '', transition: '' });
 const showHoverStyle = ref({ display: 'none', zIndex: -1 });
-const loginWord = ref(false);
-const img_login = ref(true);
 
+
+//显示隐藏内容
 function showHoverContent() {
-  if (isLoginStatus === true) {
-    console.log(isLoginStatus);
-    isHovered.value = true;
-    imageStyle.value = {
-      transform: 'scale(2.0) translateY(10px) translateX(-8px)',
-      transition: 'transform 0.3s ease-out'
-    };
-    showHoverStyle.value = { display: 'block', zIndex: -1 };
-  } else {
-    return
-  }
+  isHovered.value = true;
+  imageStyle.value = {
+    transform: 'scale(2.0) translateY(10px) translateX(-8px)',
+    transition: 'transform 0.3s ease-out'
+  };
+  showHoverStyle.value = { display: 'block', zIndex: -1 };
 
 }
 
+//隐藏隐藏内容
 function hideHoverContent() {
   isHovered.value = false;
   imageStyle.value = { transform: 'scale(1) translateY(0)', transition: 'transform 0.3s ease-out' };
   showHoverStyle.value = { display: 'none', zIndex: -1 };
 }
 
-const count = ref(0);
 </script>
 
 
@@ -226,6 +228,14 @@ const count = ref(0);
 
 .navbar_right .login_right li {
   @apply flex flex-row justify-center items-center;
+}
+
+.loginWord {
+  @apply text-xs border-solid border-2 rounded-full border-gray-500 w-8 h-8 z-10 flex justify-center items-center cursor-pointer;
+
+  span {
+    @apply leading-8;
+  }
 }
 
 .navbar_right {

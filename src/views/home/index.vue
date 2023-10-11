@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeMount } from "vue";
+import { ref, onMounted} from "vue";
 import headerNav from "../../components/nav.vue";
 import indexleftlist from "../../components/index/indexLeftList.vue";
 import indexrightlist from "../../components/index/indexRightList.vue";
@@ -23,18 +23,10 @@ import indexTextList from "../../components/index/indexTextList.vue";
 
 import { isLogin } from "../../js/isLogin"
 
-// console.log(isLogin());
 
 
-const LoginInfo = ref("");
-// 使用 isLogin 函数进行登录状态检查
-isLogin().then((res) => {
-  console.log(res);
-  LoginInfo.value = res; // 将值保存到LoginInfo
-}).catch((err) => {
-  console.log(err);
-});
-
+// 使用 isLogin 函数进行登录状态检查,返回一个对象
+const LoginInfo = ref(isLogin());
 
 
 const isScrolled = ref(false);
