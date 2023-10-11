@@ -1,12 +1,12 @@
 <template>
-    <createNav class="createNav" :class="{ 'shadow-lg': isScrolled }"></createNav>
+    <createNav class="createNav" :class="{ 'shadow-lg': isScrolled }" :LoginInfo="LoginInfo"></createNav>
     <div class="headerNull"></div>
     <div class="createContainer">
         <div class="createTitle">
             <p>
                 笔记标题*
             </p>
-            <n-input class="titleInput" maxlength="30" show-count clearable />
+            <n-input class="titleInput" maxlength="30" show-count clearable v-model:value="noteTitle" />
             <p>
                 编辑笔记内容*
             </p>
@@ -33,7 +33,7 @@
                 </p>
             </n-upload-dragger>
         </n-upload>
-        <div class="uploadBtn" :disabled="!fileListLengthRef" @click="handleClick">
+        <div class="uploadBtn" :disabled="!fileListLengthRef" @click="createNote()">
             <span>
                 发布笔记
             </span>
@@ -46,11 +46,20 @@
 <script setup>
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
-import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
+import { onBeforeUnmount, ref, shallowRef, onMounted, getCurrentInstance } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { DomEditor } from '@wangeditor/editor'
 import createNav from "../../components/create/createNav.vue";
+import { useRouter } from "vue-router"; // 引入useRouter
 
+import { isLogin } from "../../js/isLogin"
+
+// 使用 isLogin 函数进行登录状态检查,返回一个对象
+const LoginInfo = ref(isLogin());
+
+const router = useRouter();
+
+const { proxy } = getCurrentInstance();
 const isScrolled = ref(false);
 
 // 监听页面滚动事件
@@ -70,17 +79,17 @@ const mode = 'default' // 编辑器模式，可选值为：default、simple、cl
 
 
 // 内容 HTML
-const valueHtml = ref('<p>hello</p>')
+const valueHtml = ref('')
 
-// 模拟 ajax 异步获取内容
-onMounted(() => {
-    setTimeout(() => {
-        valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>'
-    }, 1500)
-})
+// // 模拟 ajax 异步获取内容
+// onMounted(() => {
+//     setTimeout(() => {
+//         valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>'
+//     }, 1500)
+// })
 
 const toolbarConfig = {}
-const editorConfig = { placeholder: '请输入内容...' }
+const editorConfig = { placeholder: '请输入笔记内容...' }
 
 //工具栏配置
 toolbarConfig.toolbarKeys = [
@@ -160,19 +169,63 @@ const handleCreated = (editor) => {
     // }, 1000)
 }
 
+// 发布笔记
+const noteTitle = ref(null);
 // 发布笔记,上传文件
 const fileListLengthRef = ref(0);
 const uploadRef = ref(null);
 const handleChange = (options) => {
     fileListLengthRef.value = options.fileList.length;
 };
-const handleClick = () => {
+const createNote = () => {
+    const editor = editorRef.value // 获取 editor ，必须等待它渲染完之后
+
     uploadRef.value?.submit();
+
+    //获取笔记标题
+    console.log(noteTitle.value);
+    //获取笔记内容
+    if (editor == null) return
+    const noteContent = editorRef.value.getText()
+    console.log(noteContent);
+
+    //上传笔记
+    let data = { "noteTitle": noteTitle.value, "noteContent": noteContent, "userId": null };
+    if (LoginInfo.value.isLogin) {
+        data.userId = LoginInfo.value.userInfo.userId;
+        if (noteTitle.value == null || noteContent == null) {
+            alert("笔记标题和内容不能为空");
+        } else {
+            proxy.$http
+                .post("http://localhost:3000/api/note/create", data)
+                .then((response) => {
+                    console.log(response.data);
+                    if (response.data.code == 0) {
+                        //发布笔记成功
+                        alert("发布笔记成功");
+                        //跳转到首页
+                        router.push("/");
+                    }
+                    else {
+                        //发布笔记失败
+                        alert("发布笔记失败");
+                    }
+                });
+        }
+    } else {
+        alert("请先登录");
+    }
 };
 
 </script>
 <style>
-@import "../../style/headerNav.css";
+.createNav {
+    @apply w-full h-14 z-50 fixed top-0 left-0 right-0 min-w-max;
+}
+
+.headerNull {
+    @apply w-full h-14;
+}
 
 .createContainer {
     @apply container mx-auto flex-col flex;

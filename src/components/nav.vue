@@ -4,12 +4,12 @@
       <div class="navbar_left basis-1/3">
         <ul class="flex flex-row">
           <li class="">
-            <router-link to="">
+            <router-link to="/">
               <img src="/images/logo.png" alt="">
             </router-link>
           </li>
-          <li class="ml-10"><router-link to="">首页</router-link></li>
-          <li class="ml-10"><router-link to="">排行榜</router-link></li>
+          <li class="ml-10"><router-link to="/">首页</router-link></li>
+          <li class="ml-10"><router-link to="/">排行榜</router-link></li>
           <!-- <li class="ml-10"><router-link to="">{{props.LoginInfo}}</router-link></li> -->
         </ul>
       </div>
@@ -118,7 +118,7 @@
           <li class="mr-10"><router-link to="">收藏</router-link></li>
           <li class="mr-10"><router-link to="">历史</router-link></li>
           <li class="">
-            <div class="createBtn">
+            <div class="createBtn" @click="toCreate()">
               <img src="/images/add-circle.svg" alt="">
               <span>发布笔记</span>
             </div>
@@ -135,11 +135,11 @@ import Cookies from "js-cookie";
 
 const router = useRouter();
 
+//接收父组件传递的值
 const props = defineProps({
   LoginInfo: {
     type: Object
   }
-
 })
 
 //如果isLogin的的值为true，显示头像，否则显示登录
@@ -175,6 +175,16 @@ if (props.LoginInfo.isLogin.userIntro == null) {
 //跳转到登录页面
 function toLogin() {
   router.push('/auth/login');
+}
+
+//跳转到首页
+function toHome() {
+  router.push('/');
+}
+
+//跳转到发布笔记页面
+function toCreate() {
+  router.push('/create');
 }
 
 
