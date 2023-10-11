@@ -172,13 +172,7 @@ const handleClick = () => {
 
 </script>
 <style>
-.createNav {
-    @apply w-full h-16 z-50 fixed top-0 left-0 right-0 min-w-max;
-}
-
-.headerNull {
-    @apply w-full h-16;
-}
+@import "../../style/headerNav.css";
 
 .createContainer {
     @apply container mx-auto flex-col flex;

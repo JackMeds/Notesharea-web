@@ -1,6 +1,6 @@
 <template>
     <div class="personalContainer">
-        <headerNav class="headerNav" :class="{ 'shadow-lg': isScrolled }" />
+        <headerNav class="headerNav" :class="{ 'shadow-lg': isScrolled }" :LoginInfo="LoginInfo"/>
         <div class="headerNull"></div>
         <div class="personalContent">
 
@@ -19,7 +19,10 @@ import { ref } from 'vue'
 import headerNav from "../../components/nav.vue";
 import personalAside from '../../components/personal/personalAside.vue';
 import personalContent from '../../components/personal/personalContent.vue';
+import { isLogin } from "../../js/isLogin"
 
+// 使用 isLogin 函数进行登录状态检查,返回一个对象
+const LoginInfo = ref(isLogin());
 
 const isScrolled = ref(false);
 
@@ -35,15 +38,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@import "../../style/headerNav.css";
 .personalContainer {
     @apply h-screen;
-    .headerNav {
-        @apply w-full h-16 z-50 fixed top-0 left-0 right-0 ;
-    }
-
-    .headerNull {
-        @apply w-full h-16;
-    }
 
     .personalContent {
         @apply  flex w-2/3 mx-auto h-4/5; 
