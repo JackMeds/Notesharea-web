@@ -1,6 +1,6 @@
 <template>
     <div class="page-container">
-        <headerNav class="headerNav" :class="{ 'shadow-lg': isScrolled }" />
+        <headerNav class="headerNav" :class="{ 'shadow-lg': isScrolled }" :LoginInfo="LoginInfo" />
         <div class="headerNull"></div>
         <div class="mainContainer">
             <div class="leftContainer">
@@ -10,18 +10,28 @@
                 <noteContent class="noteContent" />
             </div>
             <div class="rightContainer">
-                
+
             </div>
         </div>
-        
+
     </div>
 </template>
-  
+
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineProps } from "vue";
 import headerNav from "../../components/nav.vue";
 import noteContent from "../../components/note/content.vue";
 import floatList from "../../components/note/floatList.vue";
+
+const props = defineProps({
+    noteId: {
+        type: Number,
+        default: 0
+    },
+    LoginInfo: {
+        type: Object
+    }
+});
 
 const isScrolled = ref(false);
 
@@ -36,7 +46,7 @@ onMounted(() => {
 });
 
 </script>
-  
+
 <style>
 .page-container {
     background-color: #ffffff;
@@ -54,14 +64,14 @@ onMounted(() => {
     @apply container mx-auto flex-row flex;
 
     .leftContainer {
-        @apply w-1/12 max-xl:text-sm max-lg:text-xs max-md:hidden flex-auto m-0 ;
+        @apply w-1/12 max-xl:text-sm max-lg:text-xs max-md:hidden flex-auto m-0;
         /* .indexleftlist {
         @apply w-full mt-4 sticky top-24;
       } */
     }
 
     .content {
-        @apply md:w-5/6 w-full flex-auto ;
+        @apply md:w-5/6 w-full flex-auto;
 
         .noteContent {
             @apply w-full;
@@ -69,13 +79,14 @@ onMounted(() => {
     }
 
     .rightContainer {
-        @apply w-1/12 max-xl:text-sm max-lg:text-xs max-md:hidden flex-auto m-0 ;
+        @apply w-1/12 max-xl:text-sm max-lg:text-xs max-md:hidden flex-auto m-0;
         /* .indexleftlist {
         @apply w-full mt-4 sticky top-24;
       } */
     }
 }
-.floatList{
+
+.floatList {
     @apply fixed bottom-6;
 }
 </style>
