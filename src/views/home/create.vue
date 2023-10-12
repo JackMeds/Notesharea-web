@@ -190,9 +190,9 @@ const createNote = () => {
     console.log(noteContent);
 
     //上传笔记
-    let data = { "noteTitle": noteTitle.value, "noteContent": noteContent, "userId": LoginInfo.value.userInfo.userId };
+    let data = { "noteTitle": noteTitle.value, "noteContent": noteContent, "userId": null };
     if (LoginInfo.value.isLogin) {
-        data.userId = LoginInfo.value.userInfo.userId;
+        data.userId = LoginInfo.value.userInfo.id;
         if (noteTitle.value == null || noteContent == null) {
             alert("笔记标题和内容不能为空");
         } else {
