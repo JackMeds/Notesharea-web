@@ -190,7 +190,7 @@ const createNote = () => {
     console.log(noteContent);
 
     //上传笔记
-    let data = { "noteTitle": noteTitle.value, "noteContent": noteContent, "userId": null };
+    let data = { "noteTitle": noteTitle.value, "noteContent": noteContent, "userId": LoginInfo.value.userInfo.userId };
     if (LoginInfo.value.isLogin) {
         data.userId = LoginInfo.value.userInfo.userId;
         if (noteTitle.value == null || noteContent == null) {
