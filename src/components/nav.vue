@@ -25,7 +25,7 @@
           <li>
             <div class="loginContent">
               <div class="loginImg" v-show="loginImg">
-                <img class="img_login" src="/images/login.jpg" alt="" :style="imageStyle" @mouseover="showHoverContent">
+                <img class="img_login" :src="picture" alt="" :style="imageStyle" @mouseover="showHoverContent">
               </div>
               <div class="loginWord" @click="toLogin()" v-show="loginWord">
                 <span>登录</span>
@@ -155,6 +155,13 @@ if (props.LoginInfo.isLogin) {
   loginWord.value = true;
 }
 
+//如果图片为空，设置默认值
+const picture = ref("");
+if (props.LoginInfo.isLogin == false) {
+  picture.value = "/images/default.png";
+} else {
+  picture.value = props.LoginInfo.userInfo.picture;
+}
 //如果昵称为空，设置默认值
 const nickName = ref("");
 if (props.LoginInfo.isLogin == false) {

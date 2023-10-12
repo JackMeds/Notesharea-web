@@ -2,7 +2,7 @@
     <div class="noteContainer">
         <div class="title">
             <div class="titleText">
-                <h1>{{noteInfo.title}}</h1>
+                <h1>{{ noteInfo.title }}</h1>
             </div>
             <div class="titleBtn">
                 <img src="/images/note/download.svg" alt="">
@@ -11,10 +11,10 @@
         </div>
         <div class="info">
             <div class="infoText">
-                <p>作者：{{noteInfo.user.nickName}}</p>
+                <p>作者：{{ noteInfo.user.nickName }}</p>
                 <p>发布时间：{{ noteInfo.createdAt }}</p>
                 <p>更新时间：{{ noteInfo.updatedAt }}</p>
-                <p>浏览量：{{noteInfo.viewCount}}</p>
+                <p>浏览量：{{ noteInfo.viewCount }}</p>
                 <p>标签：标签</p>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="authorRightContainer">
                     <div class="name">
-                        <p>{{noteInfo.user.nickName}}</p>
+                        <p>{{ noteInfo.user.nickName }}</p>
                     </div>
                     <div class="follower">
                         <p>粉丝：100</p>
@@ -46,47 +46,107 @@
                 </n-carousel>
             </div>
             <div class="contentText">
-                <p>{{noteInfo.content}}</p>
+                <p>{{ noteInfo.content }}</p>
             </div>
         </div>
         <div class="comment">
             <div class="writeComment">
                 <div class="userPic">
-                    <img src="/images/login.jpg" alt="">
+                    <img :src="noteInfo.user.picture" alt="">
                 </div>
                 <div class="commentInput">
                     <n-input class="commentInputArea" placeholder="发布一条友善的评论吧" type="textarea" maxlength="120" show-count
-                        round autosize />
+                        round autosize v-model:value="commentInputData"/>
                 </div>
                 <div class="commentBtnContainer">
-                    <div class="commentBtn">
+                    <div class="commentBtn" @click="publishComment()">
                         <p>发表评论</p>
                     </div>
                 </div>
             </div>
+            <!-- {
+        "id": 1,
+        "userId": 2,
+        "noteId": 1,
+        "replyId": 0,
+        "content": "真不错",
+        "createdAt": "2023-10-12T06:20:05.000Z",
+        "updatedAt": "2023-10-12T06:20:05.000Z",
+        "user": {
+            "userName": "wangwu",
+            "nickName": "wangwu",
+            "picture": null
+        },
+        "replies": [
+            {
+                "id": 1,
+                "userId": 2,
+                "commentId": 1,
+                "content": "感谢回复",
+                "createdAt": "2023-10-12T06:37:25.000Z",
+                "user": {
+                    "userName": "wangwu",
+                    "nickName": "wangwu",
+                    "picture": null
+                }
+            }
+        ]
+    } -->
             <div class="commentList">
-                <div class="commentItem">
-                    <div class="commentItemLeft">
-                        <div class="userPic">
-                            <img src="/images/login.jpg" alt="">
+                <div class="commentItem" v-for="item in commentList">
+                    <!-- 评论 -->
+                    <div class="commentMain">
+                        <div class="commentItemLeft">
+                            <div class="userPic">
+                                <img :src="item.user.picture" alt="">
+                            </div>
+                        </div>
+                        <div class="commentItemRight">
+                            <div class="userName">
+                                <p>{{ item.user.nickName }}</p>
+                            </div>
+                            <div class="commentTime">
+                                <p>{{ item.createdAt }}</p>
+                            </div>
+                            <div class="commentText">
+                                <p>{{ item.content }}</p>
+                            </div>
+                            <div class="function">
+                                <div class="like">
+                                    <img src="/images/like.svg" alt="">
+                                    <span>点赞</span>
+                                </div>
+                                <div class="reply">
+                                    <img src="/images/reply.svg" alt="">
+                                    <span>回复</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="commentItemRight">
-                        <div class="userName">
-                            <p>贺大爷</p>
-                        </div>
-                        <div class="commentTime">
-                            <p>2021-01-01 18:54</p>
-                        </div>
-                        <div class="commentText">
-                            <p>评论内容</p>
-                        </div>
-                        <div class="function">
-                            <div class="like">
-                                <p>点赞</p>
+                    <!-- 回复 -->
+                    <div class="replyList">
+                        <div class="replyItem" v-for="replyItem in item.replies">
+                            <div class="replyItemLeft">
+                                <div class="userPic">
+                                    <img :src="replyItem.user.picture" alt="">
+                                </div>
                             </div>
-                            <div class="reply">
-                                <p>回复</p>
+                            <div class="replyItemRight">
+                                <div class="userName">
+                                    <p>{{ replyItem.user.nickName }}</p>
+                                </div>
+                                <div class="replyTime">
+                                    <p>{{ replyItem.createdAt }}</p>
+                                </div>
+                                <div class="replyText">
+                                    <p>{{ replyItem.content }}</p>
+                                </div>
+                                <div class="function">
+                                    <div class="like">
+                                        <img src="/images/like.svg" alt="">
+                                        <span>点赞</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -96,40 +156,60 @@
     </div>
 </template>
 <script setup>
-import { ref, getCurrentInstance, defineProps } from "vue";
+import { ref, getCurrentInstance, defineProps, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance().proxy;
+const router = useRouter();
 
 const props = defineProps({
     noteInfo: {
         type: Object
+    },
+    LoginInfo: {
+        type: Object
     }
 })
-//noteInfo:
-// {
-//     "id": 1,
-//     "userId": 3,
-//     "title": "高等数学笔记",
-//     "content": "定积分",
-//     "img": "default",
-//     "downloadLink": "default",
-//     "likeCount": 0,
-//     "collectCount": 0,
-//     "commentCount": 0,
-//     "viewCount": 0,
-//     "createdAt": "2023-10-09T08:49:00.000Z",
-//     "updatedAt": "2023-10-09T08:49:00.000Z",
-//     "user": {
-//         "userName": "lisi",
-//         "nickName": "lisi",
-//         "picture": null
-//     },
-//     "collects": [],
-//     "comments": [],
-//     "likes": []
-// }
+console.log(props.noteInfo);
 const noteInfo = ref(props.noteInfo);
+console.log(props.LoginInfo);
+const LoginInfo = ref(props.LoginInfo);
+
+//查询评论
+const commentList = ref([]);
+const getComment = async () => {
+    try {
+        const res = await proxy.$http.post(`http://localhost:3000/api/comment_and_reply/list`, {
+            noteId: props.noteInfo.id
+        });
+        console.log(res.data);
+        commentList.value = res.data.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+onMounted(() => {
+    getComment();
+})
+
+//发布评论
+const commentInputData = ref("");
+const publishComment = async () => {
+    try {
+        const res = await proxy.$http.post(`http://localhost:3000/api/comment_and_reply/createComment`, {
+            noteId: props.noteInfo.id,
+            userId: 1,
+            content: "真不错"
+        });
+        console.log(res.data);
+        getComment();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 </script>
 <style>
 .noteContainer {
@@ -266,44 +346,105 @@ const noteInfo = ref(props.noteInfo);
             @apply w-full;
 
             .commentItem {
-                @apply w-full flex flex-row my-4;
+                @apply w-full flex flex-col;
 
-                .commentItemLeft {
-                    @apply w-16 flex justify-center;
+                .commentMain {
+                    @apply w-full flex flex-row my-4;
 
-                    .userPic {
-                        @apply w-16 h-16 flex justify-center;
+                    .commentItemLeft {
+                        @apply w-16 flex justify-center;
 
-                        img {
-                            @apply object-cover h-16 w-16 rounded-full my-auto;
+                        .userPic {
+                            @apply w-16 h-16 flex justify-center;
+
+                            img {
+                                @apply object-cover h-16 w-16 rounded-full my-auto;
+                            }
+                        }
+                    }
+
+                    .commentItemRight {
+                        @apply w-11/12 ml-4;
+
+                        .userName {
+                            @apply w-full text-sm font-bold;
+                        }
+
+                        .commentTime {
+                            @apply w-full text-xs text-gray-400;
+                        }
+
+                        .commentText {
+                            @apply w-full;
+                        }
+
+                        .function {
+                            @apply w-full flex justify-start;
+
+                            .like {
+                                @apply w-1/12 flex justify-center items-center cursor-pointer;
+
+                                img {
+                                    @apply w-4 h-4 mr-1;
+                                }
+                            }
+
+                            .reply {
+                                @apply w-1/12 flex justify-center items-center cursor-pointer;
+
+                                img {
+                                    @apply w-4 h-4 mr-1;
+                                }
+                            }
                         }
                     }
                 }
 
-                .commentItemRight {
-                    @apply w-11/12 ml-4;
+                /* 回复 */
+                .replyList {
+                    @apply w-5/6 mx-auto;
 
-                    .userName {
-                        @apply w-full text-sm font-bold;
-                    }
+                    .replyItem {
+                        @apply w-full flex flex-row my-4;
 
-                    .commentTime {
-                        @apply w-full text-xs text-gray-400;
-                    }
+                        .replyItemLeft {
+                            @apply w-12 flex justify-center;
 
-                    .commentText {
-                        @apply w-full;
-                    }
+                            .userPic {
+                                @apply w-12 h-12 flex justify-center;
 
-                    .function {
-                        @apply w-full flex justify-start;
-
-                        .like {
-                            @apply w-1/12 flex justify-center;
+                                img {
+                                    @apply object-cover h-12 w-12 rounded-full my-auto;
+                                }
+                            }
                         }
 
-                        .reply {
-                            @apply w-1/12 flex justify-center;
+                        .replyItemRight {
+                            @apply w-11/12 ml-4;
+
+                            .userName {
+                                @apply w-full text-sm font-bold;
+                            }
+
+                            .replyTime {
+                                @apply w-full text-xs text-gray-400;
+                            }
+
+                            .replyText {
+                                @apply w-full;
+                            }
+
+                            .function {
+                                @apply w-full flex justify-start;
+
+                                .like {
+                                    @apply w-1/12 flex justify-center items-center cursor-pointer;
+
+                                    img {
+                                        @apply w-4 h-4 mr-1;
+                                    }
+                                }
+                            }
                         }
                     }
                 }

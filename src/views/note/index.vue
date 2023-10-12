@@ -7,7 +7,7 @@
                 <floatList class="floatList" />
             </div>
             <div class="content">
-                <noteContent class="noteContent" :noteInfo="noteInfo"/>
+                <noteContent class="noteContent" :noteInfo="noteInfo" :LoginInfo="LoginInfo" v-if="noteInfoLoaded"/>
             </div>
             <div class="rightContainer">
 
@@ -18,14 +18,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps, getCurrentInstance } from "vue";
+import { ref, onMounted, defineProps, getCurrentInstance, watch } from "vue";
 import headerNav from "../../components/nav.vue";
 import noteContent from "../../components/note/content.vue";
 import floatList from "../../components/note/floatList.vue";
 import { useRouter } from 'vue-router';
-import Cookies from "js-cookie";
 
 import { isLogin } from "../../js/isLogin"
+
+// 使用 isLogin 函数进行登录状态检查,返回一个对象
+const LoginInfo = ref(isLogin());
 
 const router = useRouter();
 const proxy = getCurrentInstance().proxy;
@@ -35,9 +37,6 @@ const props = defineProps({
         type: String
     }
 })
-
-// 使用 isLogin 函数进行登录状态检查,返回一个对象
-const LoginInfo = ref(isLogin());
 
 
 const isScrolled = ref(false);
@@ -54,6 +53,8 @@ onMounted(() => {
 console.log(props.noteId);
 //查询笔记内容
 const noteInfo = ref({});
+const noteInfoLoaded = ref(false);
+
 const getNoteContent = async () => {
     try {
         await proxy.$http
@@ -70,10 +71,23 @@ const getNoteContent = async () => {
             })
     } catch (error) {
         console.log(error);
+    } finally {
+        // 标记数据加载完成
+        noteInfoLoaded.value = true;
     }
 }
 
-getNoteContent();
+// 在组件挂载后执行获取数据
+onMounted(() => {
+    getNoteContent();
+});
+
+// 监视noteInfoLoaded，当数据加载完成时再渲染noteContent组件
+watch(noteInfoLoaded, (loaded) => {
+    if (loaded) {
+        // 数据加载完成，可以渲染noteContent组件
+    }
+});
 
 </script>
 
