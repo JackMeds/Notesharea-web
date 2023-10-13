@@ -56,7 +56,7 @@
                 </div>
                 <div class="commentInput">
                     <n-input class="commentInputArea" placeholder="发布一条友善的评论吧" type="textarea" maxlength="120" show-count
-                        round autosize v-model:value="commentInputData"/>
+                        round autosize v-model:value="commentInputData" />
                 </div>
                 <div class="commentBtnContainer">
                     <div class="commentBtn" @click="publishComment()">
@@ -64,36 +64,8 @@
                     </div>
                 </div>
             </div>
-            <!-- {
-        "id": 1,
-        "userId": 2,
-        "noteId": 1,
-        "replyId": 0,
-        "content": "真不错",
-        "createdAt": "2023-10-12T06:20:05.000Z",
-        "updatedAt": "2023-10-12T06:20:05.000Z",
-        "user": {
-            "userName": "wangwu",
-            "nickName": "wangwu",
-            "picture": null
-        },
-        "replies": [
-            {
-                "id": 1,
-                "userId": 2,
-                "commentId": 1,
-                "content": "感谢回复",
-                "createdAt": "2023-10-12T06:37:25.000Z",
-                "user": {
-                    "userName": "wangwu",
-                    "nickName": "wangwu",
-                    "picture": null
-                }
-            }
-        ]
-    } -->
             <div class="commentList">
-                <div class="commentItem" v-for="item in commentList">
+                <div class="commentItem" v-for="(item, index) in commentList">
                     <!-- 评论 -->
                     <div class="commentMain">
                         <div class="commentItemLeft">
@@ -116,10 +88,21 @@
                                     <img src="/images/like.svg" alt="">
                                     <span>点赞</span>
                                 </div>
-                                <div class="reply">
+                                <div class="reply" @click="doReply(index)">
                                     <img src="/images/reply.svg" alt="">
                                     <span>回复</span>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="writeReply" v-if="item.showReplyInput">
+                        <div class="replyInput">
+                            <n-input class="replyInputArea" placeholder="发布一条友善的评论吧" type="textarea" maxlength="120"
+                                show-count round autosize v-model:value="replyInputData" />
+                        </div>
+                        <div class="replyBtnContainer">
+                            <div class="replyBtn" @click="publishReply(index)">
+                                <p>回复</p>
                             </div>
                         </div>
                     </div>
@@ -179,11 +162,22 @@ const LoginInfo = ref(props.LoginInfo);
 const commentList = ref([]);
 const getComment = async () => {
     try {
-        const res = await proxy.$http.post(`http://localhost:3000/api/comment_and_reply/list`, {
-            noteId: props.noteInfo.id
-        });
+        const res = await proxy.$http.get(`http://localhost:3000/api/comment_and_reply/list`, {
+            params: {
+                noteId: props.noteInfo.id
+            }
+        })
         console.log(res.data);
-        commentList.value = res.data.data;
+        // 遍历评论列表，为每个评论对象添加showReplyInput属性并初始化为false
+        commentList.value = res.data.data.map(comment => {
+            comment.showReplyInput = false;
+            // // 在回复列表中也为每个回复对象添加showReplyInput属性并初始化为false
+            // comment.replies.forEach(reply => {
+            //     reply.showReplyInput = false;
+            // });
+            return comment;
+        });
+        console.log(commentList.value);
     } catch (error) {
         console.log(error);
     }
@@ -199,8 +193,8 @@ const publishComment = async () => {
     try {
         const res = await proxy.$http.post(`http://localhost:3000/api/comment_and_reply/createComment`, {
             noteId: props.noteInfo.id,
-            userId: 1,
-            content: "真不错"
+            userId: props.LoginInfo.userInfo.id,
+            content: commentInputData.value
         });
         console.log(res.data);
         getComment();
@@ -209,6 +203,38 @@ const publishComment = async () => {
     }
 }
 
+//打开回复输入框
+const replyInputData = ref("");
+const showReplyInput = ref(false);
+const doReply = (index) => {
+    // 遍历评论列表，将除了当前点击的评论外的其他评论的showReplyInput属性设置为false
+    commentList.value.forEach((comment, i) => {
+        if (i != index) {
+            comment.showReplyInput = false;
+        }
+    });
+    // 将当前点击的评论的showReplyInput属性设置为true
+    commentList.value[index].showReplyInput = !commentList.value[index].showReplyInput;
+}
+//发布回复
+const publishReply = async (index) => {
+    try {
+        if (replyInputData.value == "") {
+            alert("回复内容不能为空");
+            return;
+        } else {
+            const res = await proxy.$http.post(`http://localhost:3000/api/comment_and_reply/createReply`, {
+                commentId: commentList.value[index].id,
+                userId: props.LoginInfo.userInfo.id,
+                content: replyInputData.value
+            });
+            console.log(res.data);
+            getComment();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 </script>
 <style>
@@ -400,6 +426,27 @@ const publishComment = async () => {
                     }
                 }
 
+                /* 回复输入框 */
+                .writeReply {
+                    @apply w-5/6 h-16 flex flex-row justify-end items-center;
+
+                    .replyInput {
+                        @apply w-10/12 h-16 flex justify-center;
+
+                        .replyInputArea {
+                            @apply h-16 mx-4 my-auto rounded-xl;
+                        }
+                    }
+
+                    .replyBtnContainer {
+                        @apply w-1/12 h-16 flex justify-center;
+
+                        .replyBtn {
+                            @apply w-12 h-12 my-auto cursor-pointer border border-black rounded-xl flex justify-center items-center;
+                        }
+                    }
+                }
+
                 /* 回复 */
                 .replyList {
                     @apply w-5/6 mx-auto;
@@ -451,4 +498,5 @@ const publishComment = async () => {
             }
         }
     }
-}</style>
+}
+</style>

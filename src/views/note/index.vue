@@ -58,17 +58,15 @@ const noteInfoLoaded = ref(false);
 const getNoteContent = async () => {
     try {
         await proxy.$http
-            .post("http://localhost:3000/api/note/detail", { noteId: props.noteId })
-            .then((response) => {
-                console.log(response.data);
-                if (response.data.code == 0) {
-                    //查询成功
-                    noteInfo.value = response.data.data;
-                } else {
-                    //查询失败
-                    console.log(response.data.msg);
+            .get("http://localhost:3000/api/note/detail", {
+                params: {
+                    noteId: props.noteId
                 }
             })
+            .then((res) => {
+                console.log(res);
+                noteInfo.value = res.data.data;
+            });
     } catch (error) {
         console.log(error);
     } finally {
