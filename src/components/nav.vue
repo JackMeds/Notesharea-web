@@ -129,11 +129,12 @@
   </div>
 </template>
 <script setup>
-import { ref, defineProps, onUpdated, onMounted } from 'vue';
+import { ref, defineProps, onUpdated, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import Cookies from "js-cookie";
 
 const router = useRouter();
+const proxy = getCurrentInstance().proxy;
 
 //接收父组件传递的值
 const props = defineProps({
@@ -158,7 +159,7 @@ if (props.LoginInfo.isLogin) {
 //如果图片为空，设置默认值
 const picture = ref("");
 if (props.LoginInfo.isLogin == false) {
-  picture.value = "/images/default.png";
+  picture.value = "";
 } else {
   picture.value = props.LoginInfo.userInfo.picture;
 }
@@ -234,6 +235,22 @@ function toRecommend() {
 function doLogout() {
   //删除cookie
   Cookies.remove('userInfo');
+  //删除服务器端session
+  proxy.$http
+    .get("http://localhost:3000/api/user/logout")
+    .then((response) => {
+      console.log(response.data);
+      if (response.data.code == 0) {
+        //退出登录成功
+        alert("退出登录成功");
+        //跳转到首页
+        router.push("/");
+      }
+      else {
+        //退出登录失败
+        alert("退出登录失败");
+      }
+    });
   //页面刷新
   window.location.reload();
 }
