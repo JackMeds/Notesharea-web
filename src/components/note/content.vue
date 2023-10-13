@@ -197,6 +197,7 @@ const publishComment = async () => {
             content: commentInputData.value
         });
         console.log(res.data);
+        commentInputData.value = "";
         getComment();
     } catch (error) {
         console.log(error);
@@ -229,6 +230,7 @@ const publishReply = async (index) => {
                 content: replyInputData.value
             });
             console.log(res.data);
+            replyInputData.value = "";
             getComment();
         }
     } catch (error) {
