@@ -58,9 +58,11 @@ const doLogin = () => {
     alert("用户名或密码不能为空");
   }else{
     proxy.$http
-    .post("http://localhost:3000/api/user/login", data)
+    .post("http://localhost:3000/api/user/login", data, {
+      withCredentials: true
+    })
     .then((response) => {
-      console.log(response.data);
+      console.log(response);
       if (response.data.code == 0) {
         //登录成功
         // 从后端获取 session 数据后，存储到 cookie 中

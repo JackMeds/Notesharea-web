@@ -27,7 +27,7 @@
               <div class="loginImg" v-show="loginImg">
                 <img class="img_login" :src="picture" alt="" :style="imageStyle" @mouseover="showHoverContent">
               </div>
-              <div class="loginWord" @click="toLogin()" v-show="loginWord">
+              <div class="loginText" @click="toLogin()" v-show="loginText">
                 <span>登录</span>
               </div>
 
@@ -145,15 +145,15 @@ const props = defineProps({
 
 //如果isLogin的的值为true，显示头像，否则显示登录
 const loginImg = ref(false);
-const loginWord = ref(true);
+const loginText = ref(true);
 console.log(props.LoginInfo.userInfo)
 
 if (props.LoginInfo.isLogin) {
   loginImg.value = true;
-  loginWord.value = false;
+  loginText.value = false;
 } else {
   loginImg.value = false;
-  loginWord.value = true;
+  loginText.value = true;
 }
 
 //如果图片为空，设置默认值
@@ -233,11 +233,9 @@ function toRecommend() {
 }
 //退出登录
 function doLogout() {
-  //删除cookie
-  Cookies.remove('userInfo');
   //删除服务器端session
   proxy.$http
-    .get("http://localhost:3000/api/user/logout")
+    .post("http://localhost:3000/api/user/logout", {}, { withCredentials: true })
     .then((response) => {
       console.log(response.data);
       if (response.data.code == 0) {
@@ -251,8 +249,16 @@ function doLogout() {
         alert("退出登录失败");
       }
     });
-  //页面刷新
-  window.location.reload();
+  //删除cookie
+  Cookies.remove('userInfo');
+  loginImg.value = false;
+  loginText.value = true;
+  isHovered.value = false;
+  //路由跳转回首页
+  router.push("/");
+  setTimeout(() => {
+    window.location.reload();
+  }, 1000);
 }
 </script>
 
@@ -294,7 +300,7 @@ function doLogout() {
   @apply flex flex-row justify-center items-center;
 }
 
-.loginWord {
+.loginText {
   @apply text-xs border-solid border-2 rounded-full border-gray-500 w-8 h-8 z-10 flex justify-center items-center cursor-pointer;
 
   span {
