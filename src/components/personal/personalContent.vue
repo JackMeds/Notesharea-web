@@ -3,43 +3,43 @@
         <h1 class="personalCenter">个人资料</h1>
         <div class="container">
             <div class="contentList">
-                <from class="contentTable">
+                <n-form ref="formRef" :model="model">
                     <div class="contentItem">
-                        <div class="itemLeft"><span>用户名</span></div>
+                        <div class="itemLeft"><span>昵称</span></div>
                         <div class="itemRight"><n-input class="contentInput" maxlength="30" show-count clearable
-                                placeholder="填写您的用户名" /></div>
-                    </div>
-
-                    <div class="contentItem">
-                        <div class="itemLeft"><span>职位</span></div>
-                        <div class="itemRight"><n-input class="contentInput" maxlength="30" show-count clearable
-                                placeholder="填写您的职位" /></div>
+                                placeholder="填写您的昵称" v-model:value="model.nickName" /></div>
                     </div>
                     <div class="contentItem">
-                        <div class="itemLeft"><span>公司</span></div>
+                        <div class="itemLeft"><span>性别</span></div>
                         <div class="itemRight"><n-input class="contentInput" maxlength="30" show-count clearable
-                                placeholder="填写您的公司" /></div>
+                                placeholder="填写您的性别" v-model:value="model.gender" /></div>
                     </div>
                     <div class="contentItem">
-                        <div class="itemLeft"><span>个人主页</span></div>
+                        <div class="itemLeft"><span>邮箱</span></div>
                         <div class="itemRight"><n-input class="contentInput" maxlength="30" show-count clearable
-                                placeholder="填写您的个人主页" /></div>
+                                placeholder="填写您的邮箱" v-model:value="model.email" /></div>
                     </div>
                     <div class="contentItem">
-                        <div class="itemLeft"><span>个人介绍</span></div>
+                        <div class="itemLeft"><span>手机号</span></div>
+                        <div class="itemRight"><n-input class="contentInput" maxlength="30" show-count clearable
+                                placeholder="填写您的手机号" v-model:value="model.phoneNum" /></div>
+                    </div>
+                    <div class="contentItem">
+                        <div class="itemLeft"><span>个人简介</span></div>
                         <div class="itemRight"><n-input class="contentInput" type="textarea" maxlength="30" show-count
-                                placeholder="填写您的个人介绍" />
+                                placeholder="填写您的个人简介" v-model:value="model.userIntro" />
                         </div>
                     </div>
-                </from>
-                <div class="contentItem">
-                    <div class="itemLeft"></div>
-                    <div class="uploadBtn" :disabled="!fileListLengthRef" @click="handleClick">
-                        <span>
-                            保存修改
-                        </span>
+                    <div class="contentItem">
+                        <div class="itemLeft"></div>
+                        <div class="uploadBtn" @click="uploadUserInfo">
+                            <span>
+                                保存修改
+                            </span>
+                        </div>
                     </div>
-                </div>
+                </n-form>
+
 
             </div>
             <div class="contentImage">
@@ -64,6 +64,91 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
+import { useRouter } from "vue-router";
+import { isLogin } from '../../js/isLogin.js'
+const router = useRouter();
+const loginInfo = ref(isLogin());
+if (!loginInfo.value.isLogin) {
+    alert('请先登录');
+    router.push('/auth/login');
+}
+console.log(isLogin());
+console.log(loginInfo.value.userInfo.id)
+
+//表单里的数据
+const userId = loginInfo.value.userInfo.id;
+console.log(userId);
+const { proxy } = getCurrentInstance();
+const model = ref({
+    nickName: '',
+    gender: '',
+    email: '',
+    phoneNum: '',
+    userIntro: '',
+});
+
+// 在页面加载时调用 getInfo 函数获取用户信息
+onMounted(() => {
+    getInfo();
+});
+
+//获取用户信息
+const getInfo = () => {
+    proxy.$http
+        .get("http://localhost:3000/api/user/getPersonal", { params: { userId: userId } })
+        .then((response) => {
+            // 如果需要，处理成功响应
+            const userInfo = response.data; // Assuming userInfo is an object
+            console.log('User Info:', userInfo);
+            console.log('User Info:', userInfo.nickName);
+
+            model.value.nickName = userInfo.nickName;
+            model.value.gender = userInfo.gender;
+            model.value.email = userInfo.email;
+            model.value.phoneNum = userInfo.phoneNum;
+            model.value.userIntro = userInfo.userIntro;
+            console.log('nick' + model.value.nickName);
+        })
+        .catch((error) => {
+            // 如果需要，处理错误
+            console.error('获取用户信息时出错：', error);
+        });
+};
+
+//更新数据
+const uploadUserInfo = () => {
+    const updatedInfo = {
+        userId: userId,
+        nickName: model.value.nickName,
+        gender: model.value.gender,
+        email: model.value.email,
+        phoneNum: model.value.phoneNum,
+        userIntro: model.value.userIntro
+    };
+    console.log('model', model.value.email);
+    console.log('updatedInfo', updatedInfo);
+    proxy.$http
+        .patch("http://localhost:3000/api/user/changeInfo", updatedInfo)
+        .then((response) => {
+            // 如果需要，处理成功响应
+            console.log('用户信息已成功更新：', response.data);
+        })
+        .catch((error) => {
+            // 如果需要，处理错误
+            console.error('更新用户信息时出错：', error);
+        });
+};
+// import axios from 'axios';
+// const handleClick = async () => {
+//     try {
+//         const response = await axios.get('/api/user/changeInfo');
+//         console.log('从后端获取到的数据：', response.data);
+//         // 在这里处理后端返回的数据，更新页面等操作
+//     } catch (error) {
+//         console.error('获取后端数据时出错：', error);
+//     }
+// };
 
 </script>
 
@@ -97,6 +182,7 @@
             }
         }
     }
+
     .uploadBtn {
         @apply mt-4 mb-2 border-2 border-solid border-black rounded-md w-1/6 h-8 flex justify-center items-center cursor-pointer hover:bg-gray-100;
     }
@@ -120,4 +206,5 @@
 
 
     }
-}</style>
+}
+</style>
