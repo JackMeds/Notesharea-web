@@ -2,27 +2,29 @@
   <authNav class="authNav" />
   <!-- 中央输入框 -->
   <div class="centerInput">
-    <div class="title">
-      <h1>登录</h1>
-    </div>
-    <div class="inputGroup">
-      <div class="username">
-        <div class="inputTitle">
-          <p>用户名</p>
-        </div>
-        <n-input type="text" placeholder="请输入用户名" clearable v-model:value="username" />
+    <n-form ref="formRef" :model="model" :rules="rules">
+      <div class="title">
+        <h1>登录</h1>
       </div>
-      <div class="password">
-        <div class="inputTitle">
-          <p>密码</p>
+      <div class="inputGroup">
+        <div class="username">
+          <div class="inputTitle">
+            <p>用户名</p>
+          </div>
+          <n-input type="text" placeholder="请输入用户名" clearable v-model:value="username" />
         </div>
-        <n-input type="password" show-password-on="mousedown" placeholder="请输入密码" clearable v-model:value="password" />
+        <div class="password">
+          <div class="inputTitle">
+            <p>密码</p>
+          </div>
+          <n-input type="password" show-password-on="mousedown" placeholder="请输入密码" clearable v-model:value="password" />
+        </div>
       </div>
-    </div>
-    <div class="buttonGroup">
-      <n-button strong ghost type="primary" @click="toRegister">没有账户，前去注册</n-button>
-      <n-button type="primary" @click="doLogin">登录</n-button>
-    </div>
+      <div class="buttonGroup">
+        <n-button strong ghost type="primary" @click="toRegister">没有账户，前去注册</n-button>
+        <n-button type="primary" @click="doLogin">登录</n-button>
+      </div>
+    </n-form>
   </div>
   <!-- <n-message-provider>
     <content />
@@ -52,7 +54,10 @@ const doLogin = () => {
   const hashedData = ref('');
   hashedData.value = CryptoJS.SHA256(password.value).toString();
   let data = { "userName": username.value, "password": password.value };
-  proxy.$http
+  if(data.userName == "" || data.password == ""){
+    alert("用户名或密码不能为空");
+  }else{
+    proxy.$http
     .post("http://localhost:3000/api/user/login", data, {
       withCredentials: true
     })
@@ -91,6 +96,8 @@ const doLogin = () => {
         alert("登录失败");
       }
     });
+  }
+  
 }
 </script>
 <style scoped>
