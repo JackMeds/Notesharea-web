@@ -2,22 +2,22 @@
    <div class="aside">
       <div class="asideList">
          <div class="asideItem">
-            <router-link to="/personalCenter">
+            <router-link to="/accountCenter">
                <span>个人中心</span>
             </router-link>
          </div>
          <div class="asideItem">
-            <router-link to="/personalCenter/personalContent">
+            <router-link to="/accountCenter">
                <span>帐号设置</span>
             </router-link>
          </div>
          <div class="asideItem">
-            <router-link to="/personalCenter/personalContent">
+            <router-link to="/accountCenter">
                <span>通用设置</span>
             </router-link>
          </div>
          <div class="asideItem">
-            <router-link to="/personalCenter/personalContent">
+            <router-link to="/accountCenter">
                <span>消息设置</span>
             </router-link>
          </div>

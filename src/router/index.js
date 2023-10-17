@@ -33,12 +33,12 @@ const routes = [
         component: () => import('../views/home/create.vue')
     },
     {
-        path:'/personalCenter',
-        component: () => import('../views/home/personalCenter.vue'),
+        path:'/accountCenter',
+        component: () => import('../views/account/accountCenter.vue'),
         children: [
             {
                 path: '',
-                component: () => import('../components/personal/personalContent.vue')
+                component: () => import('../components/personal/accountContent.vue')
             }
         ]
     }
