@@ -147,7 +147,7 @@ const props = defineProps({
 //如果isLogin的的值为true，显示头像，否则显示登录
 const loginImg = ref(false);
 const loginText = ref(true);
-// console.log('nav',loginInfo.value.userInfo.userIntro)
+console.log('nav',loginInfo.value.userInfo)
 
 if (props.LoginInfo.isLogin) {
   loginImg.value = true;
@@ -173,18 +173,24 @@ if (props.LoginInfo.isLogin == false) {
 }
 
 //如果个人简介为空，设置默认值
+console.log('intro',props.LoginInfo.userInfo)
+console.log('intros',props.LoginInfo.isLogin)
 const userIntro = ref("");
-// if (props.LoginInfo.isLogin.userIntro == null) {
+// if (props.LoginInfo.isLogin == true && props.LoginInfo.userInfo.userIntro == null ) {
 //   userIntro.value = "这个人很懒，什么都没有留下";
 // } else {
 //   userIntro.value = props.LoginInfo.userInfo.userIntro;
 // }
-if (props.LoginInfo.isLogin == false && props.LoginInfo.userInfo.userIntro != null) {
+// if (props.LoginInfo.isLogin == false && props.LoginInfo.userInfo.userIntro != null) {
+//   userIntro.value = props.LoginInfo.userInfo.userIntro;
+// } else {
+//   userIntro.value = "这个人很懒，什么都没有留下";
+// }
+if (props.LoginInfo.isLogin && props.LoginInfo.userInfo && props.LoginInfo.userInfo.userIntro) {
   userIntro.value = props.LoginInfo.userInfo.userIntro;
 } else {
   userIntro.value = "这个人很懒，什么都没有留下";
 }
-
 
 //跳转到登录页面
 function toLogin() {
