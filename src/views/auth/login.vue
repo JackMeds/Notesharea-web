@@ -35,7 +35,7 @@ import { ref, getCurrentInstance } from "vue";
 import Cookies from "js-cookie";
 import { useRouter } from "vue-router"; // 引入useRouter
 import authNav from "../../components/auth/authNav.vue"
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
 
 const { proxy } = getCurrentInstance();
 const router = useRouter();
@@ -51,18 +51,18 @@ const password = ref("");
 
 //处理登录
 const doLogin = () => {
-  const hashedData = ref('');
-  hashedData.value = CryptoJS.SHA256(password.value).toString();
+  // const hashedData = ref('');
+  // hashedData.value = CryptoJS.SHA256(password.value).toString();
   let data = { "userName": username.value, "password": password.value };
   if(data.userName == "" || data.password == ""){
     alert("用户名或密码不能为空");
   }else{
     proxy.$http
     .post("http://localhost:3000/api/user/login", data, {
-      withCredentials: true
+      withCredentials: true,
     })
     .then((response) => {
-      console.log(response);
+      console.log(response.data);
       if (response.data.code == 0) {
         //登录成功
         // 从后端获取 session 数据后，存储到 cookie 中
