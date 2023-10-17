@@ -132,7 +132,8 @@
 import { ref, onUpdated, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import Cookies from "js-cookie";
-
+import { isLogin } from '../js/isLogin.js'
+const loginInfo = ref(isLogin());
 const router = useRouter();
 const proxy = getCurrentInstance().proxy;
 
@@ -146,7 +147,7 @@ const props = defineProps({
 //如果isLogin的的值为true，显示头像，否则显示登录
 const loginImg = ref(false);
 const loginText = ref(true);
-console.log(props.LoginInfo.userInfo)
+// console.log('nav',loginInfo.value.userInfo.userIntro)
 
 if (props.LoginInfo.isLogin) {
   loginImg.value = true;
@@ -173,10 +174,15 @@ if (props.LoginInfo.isLogin == false) {
 
 //如果个人简介为空，设置默认值
 const userIntro = ref("");
-if (props.LoginInfo.isLogin.userIntro == null) {
-  userIntro.value = "这个人很懒，什么都没有留下";
-} else {
+// if (props.LoginInfo.isLogin.userIntro == null) {
+//   userIntro.value = "这个人很懒，什么都没有留下";
+// } else {
+//   userIntro.value = props.LoginInfo.userInfo.userIntro;
+// }
+if (props.LoginInfo.isLogin == false && props.LoginInfo.userInfo.userIntro != null) {
   userIntro.value = props.LoginInfo.userInfo.userIntro;
+} else {
+  userIntro.value = "这个人很懒，什么都没有留下";
 }
 
 
