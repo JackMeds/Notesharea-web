@@ -74,7 +74,7 @@
 import { ref, getCurrentInstance } from "vue"; //导入ref函数
 import { useRouter } from "vue-router"; // 引入useRouter
 import authNav from "../../components/auth/authNav.vue";
-import CryptoJS from "crypto-js"; // 导入CryptoJS
+// import CryptoJS from "crypto-js"; // 导入CryptoJS
 
 
 const { proxy } = getCurrentInstance();

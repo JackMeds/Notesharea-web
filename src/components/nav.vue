@@ -129,7 +129,7 @@
   </div>
 </template>
 <script setup>
-import { ref, defineProps, onUpdated, getCurrentInstance } from 'vue';
+import { ref, onUpdated, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import Cookies from "js-cookie";
 
@@ -239,26 +239,22 @@ function doLogout() {
     .then((response) => {
       console.log(response.data);
       if (response.data.code == 0) {
-        //退出登录成功
-        alert("退出登录成功");
-        //跳转到首页
+        //删除cookie
+        Cookies.remove('userInfo');
+        isHovered.value = false;
+        loginImg.value = false;
+        loginText.value = true;
+        //路由跳转回首页
         router.push("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
       else {
         //退出登录失败
         alert("退出登录失败");
       }
     });
-  //删除cookie
-  Cookies.remove('userInfo');
-  loginImg.value = false;
-  loginText.value = true;
-  isHovered.value = false;
-  //路由跳转回首页
-  router.push("/");
-  setTimeout(() => {
-    window.location.reload();
-  }, 1000);
 }
 </script>
 
