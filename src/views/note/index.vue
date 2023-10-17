@@ -4,7 +4,7 @@
         <div class="headerNull"></div>
         <div class="mainContainer">
             <div class="leftContainer">
-                <floatList class="floatList" />
+                <floatList class="floatList" :noteInfo="noteInfo" :LoginInfo="LoginInfo" v-if="floatListLoaded"/>
             </div>
             <div class="content">
                 <noteContent class="noteContent" :noteInfo="noteInfo" :LoginInfo="LoginInfo" v-if="noteInfoLoaded"/>
@@ -54,6 +54,7 @@ console.log(props.noteId);
 //查询笔记内容
 const noteInfo = ref({});
 const noteInfoLoaded = ref(false);
+const floatListLoaded = ref(false);
 
 const getNoteContent = async () => {
     try {
@@ -72,6 +73,7 @@ const getNoteContent = async () => {
     } finally {
         // 标记数据加载完成
         noteInfoLoaded.value = true;
+        floatListLoaded.value = true;
     }
 }
 
