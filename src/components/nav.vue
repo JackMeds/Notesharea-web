@@ -233,7 +233,7 @@ function hideHoverContent() {
 
 //跳转到个人中心
 function toPersonalCenter() {
-  router.push('/personalCenter');
+  router.push('/accountCenter');
 }
 //跳转到我的收藏
 function toCollect() {

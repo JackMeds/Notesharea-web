@@ -5,9 +5,10 @@
         <div class="personalContent">
 
             <div class="personalLeft">
-                <personalAside/>
+                <accountAside/>
             </div>
             <div class="personalRight">
+                
                 <router-view/>
             </div>
         </div>
@@ -17,8 +18,8 @@
 <script setup>
 import { ref } from 'vue'
 import headerNav from "../../components/nav.vue";
-import personalAside from '../../components/personal/personalAside.vue';
-import personalContent from '../../components/personal/personalContent.vue';
+import accountAside from '../../components/personal/accountAside.vue';
+import accountContent from '../../components/personal/accountContent.vue';
 import { isLogin } from "../../js/isLogin"
 
 // 使用 isLogin 函数进行登录状态检查,返回一个对象

@@ -11,8 +11,11 @@
                     </div>
                     <div class="contentItem">
                         <div class="itemLeft"><span>性别</span></div>
-                        <div class="itemRight"><n-input class="contentInput" maxlength="30" show-count clearable
-                                placeholder="填写您的性别" v-model:value="model.gender" /></div>
+                        <div class="itemRight">
+                            <!-- <n-input class="contentInput" maxlength="30" show-count clearable placeholder="填写您的性别"
+                                v-model:value="model.gender" /> -->
+                                <n-select class="contentInput" maxlength="30" v-model:value="model.gender" :options="options" />
+                        </div>
                     </div>
                     <div class="contentItem">
                         <div class="itemLeft"><span>邮箱</span></div>
@@ -87,6 +90,22 @@ const model = ref({
     phoneNum: '',
     userIntro: '',
 });
+
+const options = [
+  {
+    label: "男",
+    value: "1",
+  },
+  {
+    label: "女",
+    value: "2"
+  },
+  {
+    label: "保密",
+    value: "3"
+  },
+]
+
 
 // 在页面加载时调用 getInfo 函数获取用户信息
 onMounted(() => {
