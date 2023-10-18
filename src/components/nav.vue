@@ -147,7 +147,7 @@ const props = defineProps({
 //如果isLogin的的值为true，显示头像，否则显示登录
 const loginImg = ref(false);
 const loginText = ref(true);
-console.log('nav',loginInfo.value.userInfo)
+console.log('nav', loginInfo.value.userInfo)
 
 if (props.LoginInfo.isLogin) {
   loginImg.value = true;
@@ -173,8 +173,8 @@ if (props.LoginInfo.isLogin == false) {
 }
 
 //如果个人简介为空，设置默认值
-console.log('intro',props.LoginInfo.userInfo)
-console.log('intros',props.LoginInfo.isLogin)
+console.log('intro', props.LoginInfo.userInfo)
+console.log('intros', props.LoginInfo.isLogin)
 const userIntro = ref("");
 // if (props.LoginInfo.isLogin == true && props.LoginInfo.userInfo.userIntro == null ) {
 //   userIntro.value = "这个人很懒，什么都没有留下";
@@ -317,8 +317,11 @@ function doLogout() {
 }
 
 .navbar_right {
-  .img_login {
-    @apply border-solid border-2 border-gray-500 rounded-full w-8 h-8 m-auto z-10;
+  .loginImg {
+
+    .img_login {
+      @apply border-solid border-2 border-gray-500 bg-white rounded-full w-8 h-8 m-auto z-10;
+    }
   }
 }
 
