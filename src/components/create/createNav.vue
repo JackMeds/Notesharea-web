@@ -66,7 +66,7 @@ if (props.LoginInfo.isLogin) {
       @apply h-16 flex flex-row justify-center items-center mr-6;
 
       img {
-        @apply w-14 mr-4;
+        @apply w-12 mr-4;
       }
 
       h1 {
