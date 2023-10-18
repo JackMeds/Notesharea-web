@@ -3,7 +3,7 @@
     <div class="textListItem" v-for="item in textList">
       <div class="textListItemLeft">
         <div class="textListItemLeftImg" @click="toNote(item.noteId)">
-          <img :src="item.imgurl" alt="" />
+          <img src="../../assets/images/tuxiang1.png" alt="" />
         </div>
       </div>
       <div class="textListItemContent">
@@ -12,29 +12,33 @@
             <span @click="toNote(item.noteId)">{{ item.title }}</span>
           </div>
           <div class="textListItemContentText">
-            <span @click="toNote(item.noteId)">{{ item.intro }}</span>
+            <span @click="toNote(item.noteId)">{{
+              truncateText(item.content, 50)
+            }}</span>
           </div>
           <div class="textListItemContentInfo">
-            <span class="username" @click="toNote(item.authorId)">{{ item.username }}</span>
+            <span class="username" @click="toNote(item.authorId)">{{
+              item.user.nickName
+            }}</span>
             <span class="date">{{ item.date }}</span>
           </div>
         </div>
         <div class="textListItemFooter">
           <div class="textListItemFooterItem">
             <div class="textListItemFooterItemText">
-              <img src="/images/like.svg" alt="">
+              <img src="/images/like.svg" alt="" />
               <span>{{ item.like }}</span>
             </div>
           </div>
           <div class="textListItemFooterItem">
             <div class="textListItemFooterItemText">
-              <img src="/images/collect.svg" alt="">
+              <img src="/images/collect.svg" alt="" />
               <span>{{ item.collect }}</span>
             </div>
           </div>
           <div class="textListItemFooterItem">
             <div class="textListItemFooterItemText">
-              <img src="/images/comment.svg" alt="">
+              <img src="/images/comment.svg" alt="" />
               <span>{{ item.comment }}</span>
             </div>
           </div>
@@ -44,57 +48,42 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router"; // 引入useRouter
+import axios from "axios";
 
 // 路由
 const router = useRouter();
 
 //列表数据
-const textList = ref([
-  {
-    noteId: 1,
-    title: "高等数学-不定积分",
-    authorName: "贺大爷",
-    date: "2021-10-10",
-    intro:
-      "这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享",
-    imgurl: "/images/tuxiang1.png",
-    like: 808,
-    collect: 808,
-    comment: 808,
-  },
-  {
-    noteId: 2,
-    title: "高等数学-不定积分",
-    authorName: "贺大爷",
-    date: "2021-10-10",
-    intro:
-      "这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享",
-    imgurl: "/images/tuxiang1.png",
-    like: 808,
-    collect: 808,
-    comment: 808,
-  },
-  {
-    noteId: 3,
-    title: "高等数学-不定积分",
-    authorName: "贺大爷",
-    date: "2021-10-10",
-    intro:
-      "这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享，这是高等数学不定积分笔记的分享",
-    imgurl: "/images/tuxiang1.png",
-    like: 808,
-    collect: 808,
-    comment: 808,
-  },
-]);
+const textList = ref([]);
+
+const fetchDataFromDatabase = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/note/allNotes");
+    console.log(response.data.data.map(item => item.user.nickName));
+    textList.value = response.data.data; // 假设响应数据包含一个名为 "data" 的数组
+  } catch (error) {
+    console.error("Failed to fetch data from the database:", error);
+  }
+};
+
+onMounted(() => {
+  fetchDataFromDatabase();
+});
 
 //跳转到笔记详情页
 const toNote = (noteId) => {
   router.push("/note/" + noteId);
 };
 
+// 定义常量 truncateText 方法
+const truncateText = (text, maxLength) => {
+  if (text.length > maxLength) {
+    return text.slice(0, maxLength) + "..."; // 使用省略号代替
+  }
+  return text;
+};
 </script>
 <style>
 .textList {
@@ -129,7 +118,7 @@ const toNote = (noteId) => {
             @apply text-xs text-gray-400;
           }
           .date {
-            @apply text-xs text-gray-400 ;
+            @apply text-xs text-gray-400;
           }
         }
       }
