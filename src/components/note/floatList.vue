@@ -15,9 +15,11 @@
         </div>
         <div class="share">
             <img src="/images/share.svg" alt="">
+            <span>分享</span>
         </div>
         <div class="report">
             <img src="/images/report.svg" alt="">
+            <span>举报</span>
         </div>
         <div class="top">
             <img src="/images/top.svg" alt="">
