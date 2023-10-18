@@ -116,7 +116,25 @@
         <ul class="login_right flex flex-row justify-end">
 
           <li class="mr-10"><router-link to="">消息</router-link></li>
-          <li class="mr-10"><router-link to="">收藏</router-link></li>
+          <li class="mr-10" @mouseover="showCollect">
+            <router-link to="">收藏</router-link>
+
+            <!-- 显示隐藏的收藏列表 -->
+            <div class="showCollect" :style="showCollectStyle" @mouseleave="hideCollect">
+              <div class="collectList">
+                <div class="collectItem" v-for="(item,index) in collectList" :key="index">
+                  <div class="collectLeft">
+                    <img src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" alt="" class="collectImg">
+                  </div>
+                  <div class="collectRight">
+                    <div class="collectTitle">{{ item.note.title }}</div>
+                    <div class="collectAuthor">{{ item.note.user.nickName }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </li>
           <li class="mr-10"><router-link to="">历史</router-link></li>
           <li class="">
             <div class="createBtn" @click="toCreate()">
@@ -130,7 +148,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onUpdated, getCurrentInstance } from 'vue';
+import { ref, onUpdated, getCurrentInstance, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import Cookies from "js-cookie";
 import { isLogin } from '../js/isLogin.js'
@@ -212,9 +230,10 @@ function toCreate() {
 const isHovered = ref(false);
 const imageStyle = ref({ transform: '', transition: '' });
 const showHoverStyle = ref({ display: 'none', zIndex: -1 });
+const showCollectStyle = ref({ display: 'none', zIndex: -1 });
 
 
-//显示隐藏内容
+//显示个人中心隐藏内容
 function showHoverContent() {
   isHovered.value = true;
   imageStyle.value = {
@@ -225,12 +244,74 @@ function showHoverContent() {
 
 }
 
-//隐藏隐藏内容
+//隐藏个人中心隐藏内容
 function hideHoverContent() {
   isHovered.value = false;
   imageStyle.value = { transform: 'scale(1) translateY(0)', transition: 'transform 0.3s ease-out' };
   showHoverStyle.value = { display: 'none', zIndex: -1 };
 }
+
+
+//显示收藏内容
+function showCollect() {
+  getCollectList();
+  showCollectStyle.value = { display: 'block', zIndex: -1 };
+}
+
+//隐藏收藏内容
+function hideCollect() {
+  showCollectStyle.value = { display: 'none', zIndex: -1 };
+}
+
+//收藏列表
+const collectList =ref( [
+{
+    note: {
+      title: "",
+      user: {
+        nickName: ""
+      }
+    }
+  }
+]);
+
+
+
+// 添加一个标志来控制是否已经获取过收藏列表
+// const hasFetchedCollectList = ref(false);
+// onUpdated(() => {
+//   // 确保只在登录且未获取过列表时调用获取列表函数
+//   if (props.LoginInfo.isLogin && !hasFetchedCollectList.value) {
+//     getCollectList();
+//     // 设置标志为true，表示已经获取过列表
+//     hasFetchedCollectList.value = true;
+//   }
+// });
+//获取用户收藏笔记的列表，包括笔记图片，笔记标题，笔记作者
+function getCollectList() {
+  proxy.$http
+    .get("http://localhost:3000/api/note/getCollectNoteList", {
+      params: {
+        userId: props.LoginInfo.userInfo.id,
+      },
+    })
+    .then((response) => {
+      console.log(response.data.data[0].note.user.nickName);
+
+      if (response.data.code == 0) {
+        //获取成功
+        collectList.value = response.data.data;
+
+        console.log(response.data.data);
+      }
+      else {
+        //获取失败
+        alert("获取收藏列表失败");
+      }
+    });
+}
+
+
 
 //跳转到个人中心
 function toPersonalCenter() {
@@ -354,6 +435,36 @@ function doLogout() {
 
 .showHover .item_fans a {
   @apply flex flex-row justify-center items-center;
+}
+
+.showCollect {
+  @apply flex absolute w-60 top-12 border border-black bg-white z-0;
+
+  .collectList {
+    @apply flex flex-col w-full;
+
+    .collectItem {
+      @apply flex flex-row justify-between items-center px-2 py-2 border-b border-gray-300;
+
+      .collectLeft {
+        .collectImg {
+          @apply h-10 aspect-[4/3] rounded-sm overflow-hidden cursor-pointer;
+        }
+      }
+
+      .collectRight {
+        @apply flex flex-grow flex-col justify-between ml-2;
+
+        .collectTitle {
+          @apply text-sm;
+        }
+
+        .collectAuthor {
+          @apply text-xs text-gray-400;
+        }
+      }
+    }
+  }
 }
 
 .itemList {

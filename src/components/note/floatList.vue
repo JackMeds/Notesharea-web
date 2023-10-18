@@ -10,8 +10,9 @@
             <span>{{ commentCount }}</span>
         </div>
         <div class="collect">
-            <img src="/images/collect.svg" alt="">
-            <span>100</span>
+            <img src="/images/collect.svg" alt="" v-if="isCollect" @click="uncollect">
+            <img src="/images/uncollect.svg" alt="" v-else @click="collect">
+            <span>{{ collectCount }}</span>
         </div>
         <div class="share">
             <img src="/images/share.svg" alt="">
@@ -64,6 +65,7 @@ const getLikeStatus = () => {
         })
 }
 getLikeStatus()
+//点赞
 const like = () => {
     proxy.$http
         .post("/api/note/like", {
@@ -80,6 +82,7 @@ const like = () => {
             console.log(err)
         })
 }
+//取消点赞
 const unlike = () => {
     proxy.$http
         .post("/api/note/unlike", {
@@ -96,6 +99,66 @@ const unlike = () => {
             console.log(err)
         })
 }
+
+//收藏功能
+const isCollect = ref(false)
+const collectCount = ref(0)
+//获取收藏状态
+const getCollectStatus = () => {
+    proxy.$http
+        .get("/api/note/getCollectStatus", {
+            params: {
+                userId: props.LoginInfo.userInfo.id,
+                noteId: props.noteInfo.id
+            }
+        })
+        .then(res => {
+            isCollect.value = res.data.data.isCollect;
+            collectCount.value = res.data.data.collectCount;
+            console.log(res.data.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+getCollectStatus()
+//收藏
+const collect = () => {
+    proxy.$http
+        .post("/api/note/collect", {
+            userId: props.LoginInfo.userInfo.id,
+            noteId: props.noteInfo.id,
+            isCollect: isCollect.value
+        })
+        .then(res => {
+            isCollect.value = true;
+            console.log(res)
+            collectCount.value = res.data.data.collectCount;
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+//取消收藏
+const uncollect = () => {
+    proxy.$http
+        .post("/api/note/uncollect", {
+            userId: props.LoginInfo.userInfo.id,
+            noteId: props.noteInfo.id,
+            isCollect: isCollect.value
+        })
+        .then(res => {
+            isCollect.value = false;
+            console.log(res.data.data.collectCount)
+            collectCount.value = res.data.data.collectCount;
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+
+
 
 //获取评论计数
 const commentCount = ref(0);
