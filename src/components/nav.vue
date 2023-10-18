@@ -1,13 +1,14 @@
 <template>
-  <div class="px-10 bg-white min-w-max select-none">
-    <div class="flex flex-row mt-3">
+  <div class="px-10 bg-white min-w-max select-none flex flex-col justify-center">
+    <div class="flex flex-row ">
       <div class="navbar_left basis-1/3">
         <ul class="flex flex-row">
           <li class="">
             <router-link to="/">
-              <img src="/images/logo.png" alt="">
+              <img src="/images/logo.png" class="logoImg">
             </router-link>
           </li>
+          <li class="ml-4 text-xl font-bold"><router-link to="/">NoteSharea</router-link></li>
           <li class="ml-10"><router-link to="/">首页</router-link></li>
           <li class="ml-10"><router-link to="/">排行榜</router-link></li>
           <!-- <li class="ml-10"><router-link to="">{{props.LoginInfo}}</router-link></li> -->
@@ -88,7 +89,7 @@
                   <!-- 推荐服务 -->
                   <div class="item" @click="toRecommend">
                     <div class="itemImg">
-                      <img src="/images/like.svg" alt="">
+                      <img src="/images/unlike.svg" alt="">
                       <span>推荐服务</span>
                     </div>
                     <div class="itemImg">
@@ -272,8 +273,8 @@ function doLogout() {
 
 
 <style>
-.navbar_left img {
-  @apply w-20;
+.navbar_left .logoImg {
+  @apply w-12;
 }
 
 .navbar_left ul {
@@ -317,6 +318,7 @@ function doLogout() {
 }
 
 .navbar_right {
+  @apply flex flex-row justify-end items-center;
   .loginImg {
 
     .img_login {
