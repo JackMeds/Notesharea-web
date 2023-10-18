@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     {
         // 首页
-        path:'/',
+        path: '/',
         component: () => import('../views/home/index.vue')
     },
     {
@@ -24,22 +24,33 @@ const routes = [
     },
     {
         // 笔记
-        path:'/note/:noteId',
+        path: '/note/:noteId',
         component: () => import('../views/note/index.vue'),
         props: true,
+    },
+    //修改笔记
+    {
+        path: '/note/edit/:noteId',
+        props: true,
+        component: () => import('../views/note/edit.vue')
     },
     {
         path: '/create',
         component: () => import('../views/home/create.vue')
     },
     {
-        path:'/accountCenter',
+        path: '/accountCenter',
         component: () => import('../views/account/accountCenter.vue'),
         children: [
             {
                 path: '',
                 component: () => import('../components/personal/accountContent.vue')
-            }
+            },
+            //账户笔记
+            {
+                path: 'accountNotes',
+                component: () => import('../components/personal/accountNotes.vue')
+            },
         ]
     }
 

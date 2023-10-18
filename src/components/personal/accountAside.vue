@@ -3,12 +3,12 @@
       <div class="asideList">
          <div class="asideItem">
             <router-link to="/accountCenter">
-               <span>个人中心</span>
+               <span>帐号设置</span>
             </router-link>
          </div>
          <div class="asideItem">
-            <router-link to="/accountCenter">
-               <span>帐号设置</span>
+            <router-link to="/accountCenter/accountNotes">
+               <span>我的笔记</span>
             </router-link>
          </div>
          <div class="asideItem">
