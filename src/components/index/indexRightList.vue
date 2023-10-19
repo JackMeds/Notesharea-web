@@ -8,7 +8,7 @@
       <!-- 内容图片及内容 -->
       <div class="Imglist" v-for="(item, index) in leftList.slice(0, 8)" :key="index">
         <div class="listItemPic">
-          <img src="../../assets/images/tuxiang1.png" alt="" @click="toNote(item.noteId)"/>
+          <img :src="item.note.img" alt="" @click="toNote(item.noteId)"/>
         </div>
         <div class="text">
           <span class="Title" @click="toNote(item.noteId)">{{ item.note.title }}</span><br>

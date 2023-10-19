@@ -32,23 +32,23 @@ export default {
         url: "/follow",
       },
       {
-        title: "分类",
+        title: "高中分区",
         url: "/categories",
       },
       {
-        title: "分类",
+        title: "大学分区",
         url: "/categories",
       },
       {
-        title: "分类",
+        title: "运动分区",
         url: "/categories",
       },
       {
-        title: "分类",
+        title: "前端分区",
         url: "/categories",
       },
       {
-        title: "分类",
+        title: "后端分区",
         url: "/categories",
       },
     ]);

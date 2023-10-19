@@ -26,7 +26,8 @@
           <li>
             <div class="loginContent">
               <div class="loginImg" v-show="loginImg">
-                <img class="img_login" :src="picture" alt="" :style="imageStyle" @mouseover="showHoverContent">
+                <img class="img_login" :src="picture" alt="" :style="imageStyle" @mouseover="showHoverContent"
+                  @mouseleave="hideHoverContent">
               </div>
               <div class="loginText" @click="toLogin()" v-show="loginText">
                 <span>登录</span>
@@ -34,7 +35,8 @@
 
             </div>
             <!-- 显示隐藏内容 -->
-            <div class="hover-content showHover" :style="showHoverStyle" @mouseleave="hideHoverContent">
+            <div class="hover-content showHover" :style="showHoverStyle" @mouseover="showHoverContent"
+              @mouseleave="hideHoverContent">
               <div class="hover-content-item mt-8">
                 <div class="flex username">
                   <span>{{ nickName }}</span>
@@ -113,7 +115,7 @@
         </ul>
 
 
-        <ul class="login_right flex flex-row justify-end">
+        <ul class="login_right flex flex-row justify-end" v-if="props.LoginInfo.isLogin">
 
           <li class="mr-10"><router-link to="">消息</router-link></li>
           <li class="mr-10" @mouseover="showCollect">
@@ -122,9 +124,9 @@
             <!-- 显示隐藏的收藏列表 -->
             <div class="showCollect" :style="showCollectStyle" @mouseleave="hideCollect">
               <div class="collectList">
-                <div class="collectItem" v-for="(item,index) in collectList" :key="index">
+                <div class="collectItem" v-for="(item, index) in collectList" :key="index">
                   <div class="collectLeft">
-                    <img src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" alt="" class="collectImg">
+                    <img :src="item.note.img" alt="" class="collectImg">
                   </div>
                   <div class="collectRight">
                     <div class="collectTitle">{{ item.note.title }}</div>
@@ -264,15 +266,21 @@ function hideCollect() {
 }
 
 //收藏列表
-const collectList =ref( [
-{
-    note: {
-      title: "",
-      user: {
-        nickName: ""
-      }
+const collectList = ref([
+    {
+        "noteId": 12,
+        "note": {
+            "id": 12,
+            "title": "暂无收藏，快去收藏一篇笔记吧",
+            "img": "/images/uncollect.svg",
+            "createdAt": "",
+            "user": {
+                "userName": "",
+                "nickName": "",
+                "picture": ""
+            }
+        }
     }
-  }
 ]);
 
 
@@ -400,6 +408,7 @@ function doLogout() {
 
 .navbar_right {
   @apply flex flex-row justify-end items-center;
+
   .loginImg {
 
     .img_login {
@@ -438,7 +447,7 @@ function doLogout() {
 }
 
 .showCollect {
-  @apply flex absolute w-60 top-12 border border-black bg-white z-0;
+  @apply flex absolute w-60 top-12 rounded-md border border-black bg-white z-0;
 
   .collectList {
     @apply flex flex-col w-full;
@@ -490,5 +499,4 @@ function doLogout() {
     }
   }
 
-}
-</style>
+}</style>
