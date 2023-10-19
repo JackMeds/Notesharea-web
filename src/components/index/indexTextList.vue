@@ -3,7 +3,7 @@
     <div class="textListItem" v-for="item in textList">
       <div class="textListItemLeft">
         <div class="textListItemLeftImg" @click="toNote(item.id)">
-          <img src="../../assets/images/tuxiang1.png" alt="" />
+          <img :src="item.img" alt="" />
         </div>
       </div>
       <div class="textListItemContent">
