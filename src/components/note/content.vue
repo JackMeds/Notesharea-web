@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="comment">
-            <div class="writeComment">
+            <div class="writeComment" v-if="props.LoginInfo.isLogin">
                 <div class="userPic">
                     <img :src="noteInfo.user.picture" alt="">
                 </div>
@@ -155,8 +155,6 @@ const props = defineProps({
 })
 console.log(props.noteInfo);
 const noteInfo = ref(props.noteInfo);
-console.log(props.LoginInfo);
-const LoginInfo = ref(props.LoginInfo);
 
 //查询评论
 const commentList = ref([]);
