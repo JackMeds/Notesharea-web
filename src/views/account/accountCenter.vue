@@ -41,16 +41,16 @@ onMounted(() => {
 <style scoped>
 @import "../../style/headerNav.css";
 .personalContainer {
-    @apply h-screen;
+    height: 50rem;
 
     .personalContent {
         @apply  flex w-2/3 mx-auto h-4/5; 
         .personalLeft {
-            @apply basis-1/6 border-2 border-black rounded-md mr-4;
+            @apply basis-1/6 border-2 border-black rounded-md mr-4 overflow-y-auto;
         }
 
         .personalRight {
-            @apply basis-5/6 border-2 border-black rounded-md;
+            @apply basis-5/6 border-2 border-black rounded-md overflow-y-auto;
         }
     }
 

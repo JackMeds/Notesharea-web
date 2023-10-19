@@ -1,5 +1,5 @@
 <template>
-    <createNav class="createNav" :class="{ 'shadow-lg': isScrolled }" :LoginInfo="LoginInfo"></createNav>
+    <createNav class="createNav" :class="{ 'shadow-lg': isScrolled }" :LoginInfo="LoginInfo" :title="title"></createNav>
     <div class="headerNull"></div>
     <div class="createContainer">
         <div class="createTitle">
@@ -53,6 +53,8 @@ import createNav from "../../components/create/createNav.vue";
 import { useRouter } from "vue-router"; // 引入useRouter
 
 import { isLogin } from "../../js/isLogin"
+
+const title = ref("发布笔记");
 
 // 使用 isLogin 函数进行登录状态检查,返回一个对象
 const LoginInfo = ref(isLogin());
