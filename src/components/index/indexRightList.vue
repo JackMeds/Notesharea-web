@@ -6,13 +6,13 @@
     </div>
     <div class="index_Imglist">
       <!-- 内容图片及内容 -->
-      <div class="Imglist" v-for="(item, index) in leftList" :key="index">
+      <div class="Imglist" v-for="(item, index) in leftList.slice(0, 8)" :key="index">
         <div class="listItemPic">
-          <img :src="item.imgurl" alt="" @click="toNote(item.noteId)"/>
+          <img src="../../assets/images/tuxiang1.png" alt="" @click="toNote(item.noteId)"/>
         </div>
         <div class="text">
-          <span class="Title" @click="toNote(item.noteId)">{{ item.title }}</span><br>
-          <span class="UserName" @click="toNote(item.authorId)">{{ item.authorName }}</span>
+          <span class="Title" @click="toNote(item.noteId)">{{ item.note.title }}</span><br>
+          <span class="UserName" @click="toNote(item.authorId)">{{ item.note.user.nickName }}</span>
         </div>
       </div>
     </div>
@@ -20,71 +20,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router"; // 引入useRouter
-import imglocal from "/images/tuxiang1.png";
-
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";// 引入useRouter
+import axios from "axios"; 
 // 路由
 const router = useRouter();
 
-const leftList = ref([
-  {
-    title: "特工易冷",
-    authorName: "贺大爷",
-    authorId: 1,
-    imgurl: imglocal,
-    noteId: 1,
-  },
-  {
-    title: "特工易冷",
-    authorName: "贺大爷",
-    authorId: 1,
-    imgurl: imglocal,
-    noteId: 2,
-  },
-  {
-    title: "特工易冷",
-    authorName: "贺大爷",
-    authorId: 1,
-    imgurl: imglocal,
-    noteId: 3,
-  },
-  {
-    title: "特工易冷",
-    authorName: "贺大爷",
-    authorId: 1,
-    imgurl: imglocal,
-    noteId: 4,
-  },
-  {
-    title: "特工易冷",
-    authorName: "贺大爷",
-    authorId: 1,
-    imgurl: imglocal,
-    noteId: 5,
-  },
-  {
-    title: "特工易冷",
-    authorName: "贺大爷",
-    authorId: 1,
-    imgurl: imglocal,
-    noteId: 6,
-  },
-  {
-    title: "特工易冷",
-    authorName: "贺大爷",
-    authorId: 1,
-    imgurl: imglocal,
-    noteId: 7,
-  },
-  {
-    title: "特工易冷",
-    authorName: "贺大爷",
-    authorId: 1,
-    imgurl: imglocal,
-    noteId: 8,
-  },
-]);
+const leftList = ref([]);
+
+//获取数据库推荐列表
+const getLeftList = async () => {
+  const res = await axios.get("http://localhost:3000/api/note/recommendList");
+  console.log(res.data.data);
+  leftList.value = res.data.data;
+};
+onMounted(() => {
+  getLeftList();
+});
+
+
 
 // 跳转到笔记详情页
 const toNote = (noteId) => {
