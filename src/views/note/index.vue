@@ -73,7 +73,9 @@ const getNoteContent = async () => {
     } finally {
         // 标记数据加载完成
         noteInfoLoaded.value = true;
-        floatListLoaded.value = true;
+        if (LoginInfo.value.isLogin) {
+            floatListLoaded.value = true;
+        }
     }
 }
 

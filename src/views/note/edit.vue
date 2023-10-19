@@ -10,7 +10,7 @@
             <p>
                 笔记封面*
             </p>
-            <n-input class="titleInput" maxlength="30" show-count clearable v-model:value="notePicture" />
+            <n-input class="titleInput" show-count clearable v-model:value="notePicture" />
             <p>
                 编辑笔记内容*
             </p>
