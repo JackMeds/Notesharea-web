@@ -8,6 +8,10 @@
             </p>
             <n-input class="titleInput" maxlength="30" show-count clearable v-model:value="noteTitle" />
             <p>
+                笔记封面*
+            </p>
+            <n-input class="titleInput" maxlength="30" show-count clearable v-model:value="notePicture" />
+            <p>
                 编辑笔记内容*
             </p>
         </div>
@@ -84,6 +88,7 @@ onMounted(() => {
 
 //查询笔记内容
 const noteTitle = ref(null);
+const notePicture = ref(null);
 const noteInfo = ref({});
 const noteInfoLoaded = ref(false);
 const floatListLoaded = ref(false);
@@ -124,6 +129,7 @@ onMounted(() => {
     setTimeout(() => {
         valueHtml.value = `<p>${noteInfo.value.content}</p>`
         noteTitle.value = noteInfo.value.title;
+        notePicture.value = noteInfo.value.img;
     }, 1500)
 })
 
@@ -239,12 +245,12 @@ const updateNote = () => {
         noteId: props.noteId,
         noteTitle: noteTitle.value,
         noteContent: noteContent,
-        img: "",
+        img: notePicture.value,
         downloadLink: "",
     };
     if (LoginInfo.value.isLogin) {
         data.userId = LoginInfo.value.userInfo.id;
-        if (noteTitle.value == null || noteContent == null) {
+        if (noteTitle.value == null || noteContent == null || notePicture.value == null) {
             alert("笔记标题和内容不能为空");
         } else {
             proxy.$http

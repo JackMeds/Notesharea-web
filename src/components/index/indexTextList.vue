@@ -2,22 +2,22 @@
   <div class="textList">
     <div class="textListItem" v-for="item in textList">
       <div class="textListItemLeft">
-        <div class="textListItemLeftImg" @click="toNote(item.noteId)">
+        <div class="textListItemLeftImg" @click="toNote(item.id)">
           <img src="../../assets/images/tuxiang1.png" alt="" />
         </div>
       </div>
       <div class="textListItemContent">
         <div class="textListItemheader">
           <div class="textListItemContentTitle">
-            <span @click="toNote(item.noteId)">{{ item.title }}</span>
+            <span @click="toNote(item.id)">{{ item.title }}</span>
           </div>
           <div class="textListItemContentText">
-            <span @click="toNote(item.noteId)">{{
+            <span @click="toNote(item.id)">{{
               truncateText(item.content, 50)
             }}</span>
           </div>
           <div class="textListItemContentInfo">
-            <span class="username" @click="toNote(item.authorId)">{{
+            <span class="username" @click="toNote(item.id)">{{
               item.user.nickName
             }}</span>
             <span class="date">{{ item.date }}</span>
@@ -26,13 +26,13 @@
         <div class="textListItemFooter">
           <div class="textListItemFooterItem">
             <div class="textListItemFooterItemText">
-              <img src="/images/like.svg" alt="" />
+              <img src="/images/unlike.svg" alt="" />
               <span>{{ item.like }}</span>
             </div>
           </div>
           <div class="textListItemFooterItem">
             <div class="textListItemFooterItemText">
-              <img src="/images/collect.svg" alt="" />
+              <img src="/images/uncollect.svg" alt="" />
               <span>{{ item.collect }}</span>
             </div>
           </div>
@@ -61,8 +61,9 @@ const textList = ref([]);
 const fetchDataFromDatabase = async () => {
   try {
     const response = await axios.get("http://localhost:3000/api/note/allNotes");
-    console.log(response.data.data.map(item => item.user.nickName));
+    // console.log(response.data.data.map(item => item.user.nickName));
     textList.value = response.data.data; // 假设响应数据包含一个名为 "data" 的数组
+    console.log(textList.value);
   } catch (error) {
     console.error("Failed to fetch data from the database:", error);
   }

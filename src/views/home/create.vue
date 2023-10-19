@@ -8,6 +8,10 @@
             </p>
             <n-input class="titleInput" maxlength="30" show-count clearable v-model:value="noteTitle" />
             <p>
+                笔记封面*
+            </p>
+            <n-input class="titleInput" maxlength="30" show-count clearable v-model:value="notePicture" />
+            <p>
                 编辑笔记内容*
             </p>
         </div>
@@ -173,6 +177,7 @@ const handleCreated = (editor) => {
 
 // 发布笔记
 const noteTitle = ref(null);
+const notePicture = ref(null);
 // 发布笔记,上传文件
 const fileListLengthRef = ref(0);
 const uploadRef = ref(null);
@@ -192,10 +197,10 @@ const createNote = () => {
     console.log(noteContent);
 
     //上传笔记
-    let data = { "noteTitle": noteTitle.value, "noteContent": noteContent, "userId": null };
+    let data = { "noteTitle": noteTitle.value, "noteContent": noteContent, "userId": null, "img": notePicture.value };
     if (LoginInfo.value.isLogin) {
         data.userId = LoginInfo.value.userInfo.id;
-        if (noteTitle.value == null || noteContent == null) {
+        if (noteTitle.value == null || noteContent == null || notePicture.value == null) {
             alert("笔记标题和内容不能为空");
         } else {
             proxy.$http
