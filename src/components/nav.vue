@@ -79,7 +79,7 @@
                   <!-- 投稿管理 -->
                   <div class="item" @click="toCollect">
                     <div class="itemImg">
-                      <img src="/images/collect.svg" alt="">
+                      <img src="/images/uncollect.svg" alt="">
                       <span>我的收藏</span>
                     </div>
                     <div class="itemImg">

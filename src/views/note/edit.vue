@@ -1,5 +1,5 @@
 <template>
-    <createNav class="createNav" :class="{ 'shadow-lg': isScrolled }" :LoginInfo="LoginInfo"></createNav>
+    <createNav class="createNav" :class="{ 'shadow-lg': isScrolled }" :LoginInfo="LoginInfo" :title="title"></createNav>
     <div class="headerNull"></div>
     <div class="createContainer">
         <div class="createTitle">
@@ -59,6 +59,8 @@ const props = defineProps({
         type: String
     }
 })
+
+const title = ref("编辑笔记");
 
 console.log(props.noteId);
 
@@ -253,7 +255,7 @@ const updateNote = () => {
                         //发布笔记成功
                         alert("编辑笔记成功");
                         //跳转到首页
-                        router.push("/");
+                        router.push("/accountCenter/accountNotes");
                     }
                     else {
                         //发布笔记失败

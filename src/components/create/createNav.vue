@@ -5,7 +5,7 @@
         <router-link to="/">
           <img src="/images/logo.png" alt="" />
         </router-link>
-        <h1>上传笔记</h1>
+        <h1>{{props.title}}</h1>
       </div>
       <ul>
         <li>
@@ -41,6 +41,9 @@ const router = useRouter();
 const props = defineProps({
   LoginInfo: {
     type: Object
+  },
+  title: {
+    type: String
   }
 })
 
