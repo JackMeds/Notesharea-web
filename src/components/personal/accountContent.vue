@@ -152,6 +152,7 @@ const uploadUserInfo = () => {
         .then((response) => {
             // 如果需要，处理成功响应
             console.log('用户信息已成功更新：', response.data);
+            alert("用户信息已成功更新!");
         })
         .catch((error) => {
             // 如果需要，处理错误
