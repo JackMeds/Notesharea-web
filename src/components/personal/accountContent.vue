@@ -14,7 +14,7 @@
                         <div class="itemRight">
                             <!-- <n-input class="contentInput" maxlength="30" show-count clearable placeholder="填写您的性别"
                                 v-model:value="model.gender" /> -->
-                                <n-select class="contentInput" maxlength="30" v-model:value="model.gender" :options="options" />
+                            <n-select class="contentInput" maxlength="30" v-model:value="model.gender" :options="options" />
                         </div>
                     </div>
                     <div class="contentItem">
@@ -70,6 +70,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from "vue-router";
 import { isLogin } from '../../js/isLogin.js'
+import Cookies from "js-cookie";
 const router = useRouter();
 const loginInfo = ref(isLogin());
 if (!loginInfo.value.isLogin) {
@@ -77,7 +78,7 @@ if (!loginInfo.value.isLogin) {
     router.push('/auth/login');
 }
 console.log(isLogin());
-console.log(loginInfo.value.userInfo.id)
+console.log(loginInfo.value)
 
 //表单里的数据
 const userId = loginInfo.value.userInfo.id;
@@ -92,18 +93,18 @@ const model = ref({
 });
 
 const options = [
-  {
-    label: "男",
-    value: "1",
-  },
-  {
-    label: "女",
-    value: "2"
-  },
-  {
-    label: "保密",
-    value: "3"
-  },
+    {
+        label: "男",
+        value: "1",
+    },
+    {
+        label: "女",
+        value: "2"
+    },
+    {
+        label: "保密",
+        value: "3"
+    },
 ]
 
 
@@ -148,14 +149,20 @@ const uploadUserInfo = () => {
     console.log('model', model.value.email);
     console.log('updatedInfo', updatedInfo);
     proxy.$http
-        .patch("http://localhost:3000/api/user/changeInfo", updatedInfo)
+        .patch("http://localhost:3000/api/user/changeInfo", updatedInfo, {
+            withCredentials: true,
+        })
         .then((response) => {
-            // 如果需要，处理成功响应
-            console.log('用户信息已成功更新：', response.data);
+            //设置用户信息的cookie
+            console.log('更新用户信息时返回的数据：', response.data.data);
+            Cookies.set("userInfo", JSON.stringify(response.data.data), { expires: 3});
+            // 处理成功响应
             alert("用户信息已成功更新!");
+            //页面刷新
+            window.location.reload();
         })
         .catch((error) => {
-            // 如果需要，处理错误
+            // 处理错误
             console.error('更新用户信息时出错：', error);
         });
 };
